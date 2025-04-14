@@ -193,30 +193,24 @@ const createOrder = () => {
                             <!-- end header -->
 
                             <!-- products -->
-                            <div class="grid grid-cols-3 gap-4 px-5 mt-5 overflow-y-auto h-4/6">
-
+                            <div class="grid grid-cols-3 gap-6 px-5 mt-5 overflow-y-auto">
                                 <div
                                     v-for="(product, index) in filteredProducts" :key="product.id"
                                     role="button"
-                                    class="select-none cursor-pointer transition-shadow rounded-md bg-white shadow hover:shadow-lg border border-gray-200 flex flex-col justify-between max-h-56"
+                                    class="select-none cursor-pointer transition-shadow rounded-lg bg-white shadow-md hover:shadow-xl border border-gray-200 flex flex-col justify-between min-h-[120px] p-4"
                                     :title="product.name"
                                     @click="addToCart(product)"
                                 >
-                                    <div class="flex justify-center items-center md:p-3">
-                                        <img :src="product.photo" class="max-h-40 object-cover rounded-md" :alt="product.name">
-                                    </div>
-                                    <div class="flex pb-3 px-3 text-sm">
-                                        <p class="flex-grow truncate mr-1">
-                                            <span v-if="product.quantity > 0" class="text-xs font-semibold inline-block py-1 px-2 rounded text-emerald-600 bg-emerald-200">{{ product.quantity }}{{ product.unit_type?.symbol }}</span>
-                                            <span v-if="product.quantity < 1" class="text-xs font-semibold inline-block py-1 px-2 rounded text-red-600 bg-red-200">0</span>
-                                            {{ truncateString(product.name, 11) }}
-                                        </p>
-                                        <p class="nowrap font-semibold">
-                                            {{ getCurrency() }}{{ product.selling_price }}
-                                        </p>
+                                    <div class="flex flex-col gap-2">
+                                        <div class="flex justify-between items-start">
+                                            <span v-if="product.quantity > 0" class="text-xs font-medium px-2 py-1 rounded bg-emerald-100 text-emerald-700">{{ product.quantity }}{{ product.unit_type?.symbol }}</span>
+                                            <span v-if="product.quantity < 1" class="text-xs font-medium px-2 py-1 rounded bg-red-100 text-red-700">Out of Stock</span>
+                                            <p class="text-xs text-gray-500">Code: {{ product.product_code }}</p>
+                                        </div>
+                                        <h3 class="text-base font-medium text-gray-800">{{ product.name }}</h3>
+                                        <p class="text-xl font-bold text-emerald-600">{{ getCurrency() }}{{ numberFormat(product.selling_price) }}</p>
                                     </div>
                                 </div>
-
                             </div>
                             <!-- end products -->
                         </div>
@@ -237,49 +231,28 @@ const createOrder = () => {
                             </div>
                             <!-- end header -->
                             <!-- order list -->
-                            <div class="px-5 py-2 overflow-y-auto h-64">
+                            <div class="px-3 py-2 overflow-y-auto h-64">
 
                                 <div
                                     v-for="cart in carts.data"
                                     :key="cart.id"
-                                    class="flex flex-row justify-between items-center mb-4"
-                                    :class="cart.quantity > cart.product.quantity ? 'bg-red-200' : ''"
-                                >
+                                    class="flex flex-row justify-between items-center mb-3" :class="cart.quantity > cart.product.quantity ? 'bg-red-200' : ''">
                                     <div class="flex flex-row items-center w-2/5" :title="cart.product.name">
-                                        <!-- <img :src="cart.product.photo"
-                                             class="w-10 h-10 object-cover rounded-md" :alt="cart.product.name"> -->
-                                        <span class="ml-1 font-semibold text-sm">
-                                            {{ truncateString(cart.product.name) }}
+                                        <span class="text-sm font-medium" :title="cart.product.name">
+                                            {{ truncateString(cart.product.name, 20) }}
                                             <br>
-                                            Q: {{ numberFormat(cart.product.quantity) }} {{ cart.product.unit_type?.symbol }}
+                                            <span class="text-xs text-gray-600">Q: {{ numberFormat(cart.product.quantity) }} {{ cart.product.unit_type?.symbol }}</span>
                                         </span>
                                     </div>
                                     <div class="flex justify-between">
-                                        <span
-                                            role="button"
-                                            @click="decrementCartQuantity(cart)"
-                                            class="px-3 py-1 rounded-l-md bg-gray-300 "
-                                        >-</span>
-                                        <input
-                                            @keyup.enter="insertCartQuantity(cart, $event.target.value)"
-                                            type="number"
-                                            class="font-semibold border-gray-300 px-0.5 py-1 w-10 text-center"
-                                            :value="cart.quantity"
-                                        >
-                                        <span
-                                            @click="incrementCartQuantity(cart)"
-                                            role="button"
-                                            class="px-3 py-1 rounded-r-md bg-gray-300 "
-                                        >+</span>
+                                        <span role="button" @click="decrementCartQuantity(cart)" class="px-2 py-0.5 rounded-l-md bg-gray-300 text-sm">-</span>
+                                        <input @keyup.enter="insertCartQuantity(cart, $event.target.value)" type="text" style="padding: 0;" class="font-medium border-gray-300 p-0 w-6 text-center text-sm" :value="cart.quantity">
+                                        <span @click="incrementCartQuantity(cart)" role="button" class="px-2 py-0.5 rounded-r-md bg-gray-300 text-sm">+</span>
                                     </div>
-                                    <div class="font-semibold text-lg w-16 text-center">
+                                    <div class="font-medium text-base w-16 text-center">
                                         {{ getCurrency() }}{{ numberFormat(cart.quantity * cart.product.selling_price) }}
                                     </div>
-                                    <i
-                                        @click="deleteCart(cart)"
-                                        role="button"
-                                        class="fa fa-trash-alt text-red-500"
-                                    ></i>
+                                    <i @click="deleteCart(cart)" role="button" class="fa fa-trash-alt text-red-500 text-sm"></i>
                                 </div>
 
                             </div>
@@ -306,14 +279,14 @@ const createOrder = () => {
                                             <div class="flex">
                                                 <select
                                                     v-model="form.custom_discount.discount_type"
-                                                    class="px-3 py-1 w-14 rounded-l-md bg-gray-300 border-none"
+                                                    class="px-3 py-0 w-14 rounded-l-md bg-gray-300 border-none"
                                                 >
                                                     <option value="fixed">=</option>
                                                     <option value="percentage">%</option>
                                                 </select>
                                                 <input
                                                     v-model="form.custom_discount.discount"
-                                                    type="number"
+                                                    type="text"
                                                     class="font-semibold border-gray-300 px-0.5 py-1 w-10 text-center"
                                                 >
                                             </div>
@@ -389,17 +362,5 @@ const createOrder = () => {
         </div>
     </AuthenticatedLayout>
 </template>
-
-<style scoped>
-/* Custom CSS to hide the spinner */
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-}
-
-input[type="number"] {
-    -moz-appearance: textfield;
-}
-</style>
 
 

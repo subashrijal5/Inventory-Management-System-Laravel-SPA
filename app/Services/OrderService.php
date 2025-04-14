@@ -35,9 +35,7 @@ class OrderService
         private readonly CartService        $cartService,
         private readonly ProductService     $productService,
         private readonly TransactionService $transactionService,
-    )
-    {
-    }
+    ) {}
 
     /**
      * @param array $queryParameters
@@ -203,6 +201,8 @@ class OrderService
             ]);
 
             DB::commit();
+            // Dispatch event for receipt generation
+            event(new \App\Events\OrderPaidEvent($order));
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;
@@ -286,7 +286,6 @@ class OrderService
             OrderFieldsEnum::LOSS->value   => $loss,
             OrderFieldsEnum::STATUS->value => $status,
         ];
-
         try {
             DB::beginTransaction();
 
@@ -299,6 +298,7 @@ class OrderService
                 TransactionFieldsEnum::AMOUNT->value       => $payload[TransactionFieldsEnum::AMOUNT->value],
                 TransactionFieldsEnum::PAID_THROUGH->value => $payload[TransactionFieldsEnum::PAID_THROUGH->value],
             ]);
+
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
