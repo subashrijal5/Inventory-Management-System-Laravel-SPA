@@ -28,7 +28,7 @@ export function formatDatetime(datetime) {
         hour12: true
     };
 
-    return date.toLocaleString('en-US', options);
+    return date.toLocaleString('ja-JP', options);
 }
 
 export function showToast() {

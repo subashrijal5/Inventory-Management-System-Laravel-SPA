@@ -2,7 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {Head, router} from '@inertiajs/vue3';
 import {useForm} from '@inertiajs/vue3';
-import {watch} from 'vue';
+import {watch, ref, computed} from 'vue';
 import AsyncVueSelect from "@/Components/AsyncVueSelect.vue";
 import {getCurrency, numberFormat, showToast, truncateString} from "@/Utils/Helper.js";
 import InputError from "@/Components/InputError.vue";
@@ -19,6 +19,27 @@ const props = defineProps({
     totalTax: Number,
     total: Number,
     orderPaidByTypes: Object,
+});
+
+const searchQuery = ref('');
+const searchType = ref('name'); // name, code, category
+
+const filteredProducts = computed(() => {
+    if (!searchQuery.value) return props.products.data;
+    
+    return props.products.data.filter(product => {
+        const query = searchQuery.value.toLowerCase();
+        switch(searchType.value) {
+            case 'name':
+                return product.name.toLowerCase().includes(query);
+            case 'code':
+                return product.product_code.toLowerCase().includes(query);
+            case 'category':
+                return product.category?.name.toLowerCase().includes(query);
+            default:
+                return true;
+        }
+    });
 });
 
 const form = useForm({
@@ -61,7 +82,7 @@ const addToCart = (product) => {
     router.post(route('carts.store', product.id), {}, {
         preserveScroll: true,
         onSuccess: () => {
-            showToast();
+            // showToast();
         }
     });
 };
@@ -70,7 +91,7 @@ const incrementCartQuantity = (cart) => {
     router.put(route('carts.increment', cart.id), {}, {
         preserveScroll: true,
         onSuccess: () => {
-            showToast();
+            // showToast();
         }
     });
 };
@@ -79,7 +100,7 @@ const decrementCartQuantity = (cart) => {
     router.put(route('carts.decrement', cart.id), {}, {
         preserveScroll: true,
         onSuccess: () => {
-            showToast();
+            // showToast();
         }
     });
 };
@@ -93,7 +114,7 @@ const insertCartQuantity = (cart, quantity) => {
     }, {
         preserveScroll: true,
         onSuccess: () => {
-            showToast();
+            // showToast();
         }
     });
 };
@@ -102,7 +123,7 @@ const deleteCart = (cart) => {
     router.delete(route('carts.delete', cart.id), {
         preserveScroll: true,
         onSuccess: () => {
-            showToast();
+            // showToast();
         }
     });
 };
@@ -144,18 +165,23 @@ const createOrder = () => {
                             <div class="flex flex-row justify-between items-center px-5 mt-5">
                                 <div class="text-gray-800">
                                     <div class="font-bold text-xl">Products</div>
-<!--                                    <span class="text-xs">Location ID#SIMON123</span>-->
                                 </div>
-<!--                                <div class="flex items-center">-->
-<!--                                    <div class="text-sm text-center mr-4">-->
-<!--                                        <div class="font-light text-gray-500">last synced</div>-->
-<!--                                        <span class="font-semibold">3 mins ago</span>-->
-<!--                                    </div>-->
-<!--                                    <div>-->
-<!--                                        <span-->
-<!--                                            class="px-4 py-2 bg-gray-200 text-gray-800 font-semibold rounded">Help</span>-->
-<!--                                    </div>-->
-<!--                                </div>-->
+                                <div class="flex items-center gap-2">
+                                    <select
+                                        v-model="searchType"
+                                        class="px-3 py-1 rounded-md bg-gray-200 border-none text-sm"
+                                    >
+                                        <option value="name">Name</option>
+                                        <option value="code">Code</option>
+                                        <option value="category">Category</option>
+                                    </select>
+                                    <input
+                                        v-model="searchQuery"
+                                        type="text"
+                                        placeholder="Search products..."
+                                        class="px-3 py-1 rounded-md border border-gray-200 text-sm focus:outline-none focus:border-gray-400"
+                                    />
+                                </div>
                             </div>
                             <!-- end header -->
 
@@ -163,7 +189,7 @@ const createOrder = () => {
                             <div class="grid grid-cols-3 gap-4 px-5 mt-5 overflow-y-auto h-4/6">
 
                                 <div
-                                    v-for="(product, index) in products.data" :key="product.id"
+                                    v-for="(product, index) in filteredProducts" :key="product.id"
                                     role="button"
                                     class="select-none cursor-pointer transition-shadow rounded-md bg-white shadow hover:shadow-lg border border-gray-200 flex flex-col justify-between max-h-56"
                                     :title="product.name"
@@ -213,8 +239,8 @@ const createOrder = () => {
                                     :class="cart.quantity > cart.product.quantity ? 'bg-red-200' : ''"
                                 >
                                     <div class="flex flex-row items-center w-2/5" :title="cart.product.name">
-                                        <img :src="cart.product.photo"
-                                             class="w-10 h-10 object-cover rounded-md" :alt="cart.product.name">
+                                        <!-- <img :src="cart.product.photo"
+                                             class="w-10 h-10 object-cover rounded-md" :alt="cart.product.name"> -->
                                         <span class="ml-1 font-semibold text-sm">
                                             {{ truncateString(cart.product.name) }}
                                             <br>
