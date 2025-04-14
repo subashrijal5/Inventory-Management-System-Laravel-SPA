@@ -8,6 +8,7 @@ import Modal from "@/Components/Modal.vue";
 import {useForm} from '@inertiajs/vue3';
 import {ref} from 'vue';
 import {numberFormat, showToast, truncateString} from "@/Utils/Helper.js";
+import BarcodeScanner from "@/Components/BarcodeScanner.vue";
 
 defineProps({
     filters: {
@@ -22,7 +23,7 @@ const selectedProduct = ref(null);
 const showCreateModal = ref(false);
 const showEditModal = ref(false);
 const showDeleteModal = ref(false);
-const tableHeads = ref(['#', "Name", "Product Number", "Product Code", "Category", "Supplier", "Quantity", "Status", "Action"]);
+const tableHeads = ref(['#', "Name", "Product Number", "Product Code", "Barcode", "Category", "Supplier", "Quantity", "Status", "Action"]);
 
 const form = useForm({
     name: null,
@@ -31,6 +32,7 @@ const form = useForm({
     shop_name: null,
     address: null,
     photo: null,
+    barcode: null,
 });
 
 const deleteProductModal = (product) => {
@@ -52,8 +54,11 @@ const closeModal = () => {
     showCreateModal.value = false;
     showEditModal.value = false;
     showDeleteModal.value = false;
+    showScannerModal.value = false;
     form.reset();
 };
+
+
 </script>
 
 <template>
@@ -75,12 +80,20 @@ const closeModal = () => {
                     <template #cardHeader>
                         <div class="flex justify-between items-center">
                             <h4 class="text-2xl">Apply filters({{products.total}})</h4>
-                            <Button
-                                :href="route('products.create')"
-                                buttonType="link"
-                            >
-                                Create Product
-                            </Button>
+                            <div class="flex gap-2">
+                                <Button
+                                    :href="route('products.create')"
+                                    buttonType="link"
+                                >
+                                    Create Product
+                                </Button>
+                                <Button
+                                    :href="route('products.barcode-scanner')"
+                                    buttonType="link"
+                                >
+                                    Scan Barcode
+                                </Button>
+                            </div>
                         </div>
                     </template>
 
@@ -98,6 +111,7 @@ const closeModal = () => {
                         </TableData>
                         <TableData>{{ product.product_number }}</TableData>
                         <TableData>{{ product.product_code }}</TableData>
+                        <TableData>{{ product.barcode }}</TableData>
                         <TableData :title="product.category.name">{{ truncateString(product.category.name) }}</TableData>
                         <TableData :title="product.supplier?.name">{{ truncateString(product.supplier?.name ?? '-') }}</TableData>
                         <TableData>
@@ -141,5 +155,6 @@ const closeModal = () => {
         >
             Are you sure you want to delete this product?
         </Modal>
+
     </AuthenticatedLayout>
 </template>

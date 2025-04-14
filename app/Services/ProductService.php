@@ -25,6 +25,74 @@ class ProductService
     }
 
     /**
+     * @param string $barcode
+     * @return Product|null
+     * @throws ProductNotFoundException
+     */
+    public function findByBarcode(string $barcode): ?Product
+    {
+        $product = $this->repository->find([
+            'barcode' => $barcode
+        ]);
+
+        if (!$product) {
+            throw new ProductNotFoundException('Product not found with the given barcode.');
+        }
+
+        return $product;
+    }
+
+    /**
+     * @param string $barcode
+     * @param int $quantity
+     * @return Product
+     * @throws ProductNotFoundException
+     * @throws DBCommitException
+     */
+    public function updateStockByBarcode(string $barcode, int $quantity): Product
+    {
+        $product = $this->findByBarcode($barcode);
+        
+        return $this->repository->update(
+            $product->id,
+            [ProductFieldsEnum::QUANTITY->value => $product->quantity + $quantity]
+        );
+    }
+
+    /**
+     * @param array $payload
+     * @return mixed
+     * @throws DBCommitException
+     */
+    public function createWithBarcode(array $payload): mixed
+    {
+        $photo = isset($payload['photo']) ? $this->fileManagerService->uploadFile(
+            file: $payload['photo'],
+            uploadPath: Product::PHOTO_PATH
+        ) : null;
+
+        $processPayload = [
+            ProductFieldsEnum::CATEGORY_ID->value    => $payload[ProductFieldsEnum::CATEGORY_ID->value],
+            ProductFieldsEnum::SUPPLIER_ID->value    => $payload[ProductFieldsEnum::SUPPLIER_ID->value],
+            ProductFieldsEnum::NAME->value           => $payload[ProductFieldsEnum::NAME->value],
+            ProductFieldsEnum::DESCRIPTION->value    => $payload[ProductFieldsEnum::DESCRIPTION->value],
+            ProductFieldsEnum::PRODUCT_NUMBER->value => 'P-' . Str::random(5),
+            ProductFieldsEnum::PRODUCT_CODE->value   => $payload[ProductFieldsEnum::PRODUCT_CODE->value],
+            ProductFieldsEnum::BARCODE->value        => $payload[ProductFieldsEnum::BARCODE->value],
+            ProductFieldsEnum::ROOT->value           => $payload[ProductFieldsEnum::ROOT->value] ?? null,
+            ProductFieldsEnum::BUYING_PRICE->value   => $payload[ProductFieldsEnum::BUYING_PRICE->value],
+            ProductFieldsEnum::SELLING_PRICE->value  => $payload[ProductFieldsEnum::SELLING_PRICE->value],
+            ProductFieldsEnum::BUYING_DATE->value    => $payload[ProductFieldsEnum::BUYING_DATE->value],
+            ProductFieldsEnum::UNIT_TYPE_ID->value   => $payload[ProductFieldsEnum::UNIT_TYPE_ID->value],
+            ProductFieldsEnum::QUANTITY->value       => $payload[ProductFieldsEnum::QUANTITY->value],
+            ProductFieldsEnum::PHOTO->value          => $photo,
+            ProductFieldsEnum::STATUS->value         => $payload[ProductFieldsEnum::STATUS->value],
+        ];
+
+        return $this->repository->create($processPayload);
+    }
+
+    /**
      * @param array $queryParameters
      * @return LengthAwarePaginator
      */

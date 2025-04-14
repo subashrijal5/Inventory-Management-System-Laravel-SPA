@@ -21,15 +21,87 @@ use App\Models\Product;
 use App\Services\ProductService;
 use Exception;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class ProductController extends Controller
 {
-    public function __construct(private readonly ProductService $service)
+    public function __construct(private readonly ProductService $service) {}
+
+    public function barcodeScanner(): Response
     {
+        return Inertia::render(
+            component: 'Product/BarcodeScanner'
+        );
     }
+
+    public function searchByBarcode(Request $request, string $barcode)
+    {
+        try {
+            $product = $this->service->findByBarcode($barcode);
+            return response()->json(['product' => $product]);
+        } catch (ProductNotFoundException $e) {
+            return response()->json(['product' => null], 404);
+        }
+    }
+
+    public function updateStockByBarcode(string $barcode, int $quantity): RedirectResponse
+    {
+        try {
+            $this->service->updateStockByBarcode($barcode, $quantity);
+            $flash = [
+                "message" => 'Product stock updated successfully.'
+            ];
+        } catch (ProductNotFoundException $e) {
+            $flash = [
+                "isSuccess" => false,
+                "message" => $e->getMessage(),
+            ];
+        } catch (Exception $e) {
+            $flash = [
+                "isSuccess" => false,
+                "message" => "Stock update failed!",
+            ];
+
+            Log::error("Product stock update failed!", [
+                "message" => $e->getMessage(),
+                "traces" => $e->getTrace()
+            ]);
+        }
+
+        return redirect()
+            ->route('products.barcode-scanner')
+            ->with('flash', $flash);
+    }
+
+    public function createWithBarcode(ProductCreateRequest $request): RedirectResponse
+    {
+        try {
+            $this->service->createWithBarcode(
+                payload: $request->validated()
+            );
+            $flash = [
+                "message" => 'Product created with barcode successfully.'
+            ];
+        } catch (Exception $e) {
+            $flash = [
+                "isSuccess" => false,
+                "message" => "Product creation failed!",
+            ];
+
+            Log::error("Product creation with barcode failed!", [
+                "message" => $e->getMessage(),
+                "traces" => $e->getTrace()
+            ]);
+        }
+
+        return redirect()
+            ->route('products.barcode-scanner')
+            ->with('flash', $flash);
+    }
+
 
     public function index(ProductIndexRequest $request): Response
     {
@@ -145,7 +217,8 @@ class ProductController extends Controller
                         'value'       => $request->validated()[ProductFiltersEnum::CREATED_AT->value] ?? "",
                     ],
                 ],
-            ]);
+            ]
+        );
     }
 
     public function create(): Response

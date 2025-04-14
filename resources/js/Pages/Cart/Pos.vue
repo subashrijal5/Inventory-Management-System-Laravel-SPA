@@ -22,7 +22,19 @@ const props = defineProps({
 });
 
 const searchQuery = ref('');
-const searchType = ref('name'); // name, code, category
+const searchType = ref('code'); // name, code, category
+const barcodeInput = ref(null);
+
+// Handle barcode scanner input
+const handleBarcodeInput = (event) => {
+    if (event.key === 'Enter') {
+        const product = props.products.data.find(p => p.product_code === searchQuery.value);
+        if (product) {
+            addToCart(product);
+            searchQuery.value = '';
+        }
+    }
+};
 
 const filteredProducts = computed(() => {
     if (!searchQuery.value) return props.products.data;
@@ -59,7 +71,7 @@ watch(props, (newProps) => {
         form.total = newProps.total - form.custom_discount.discount;
         form.paid = newProps.total - form.custom_discount.discount;
     } else {
-        form.total = numberFormat(newProps.total - (newProps.cartSubtotal * (form.custom_discount.discount / 100)));
+        form.total = numberFormat(newProps.total - (newProps.cartSubtotal * (form.custom_discount.discount / 100)).toFixed(2));
         form.paid = numberFormat(newProps.total - (newProps.cartSubtotal * (form.custom_discount.discount / 100)));
     }
 }, { immediate: true });
@@ -167,19 +179,14 @@ const createOrder = () => {
                                     <div class="font-bold text-xl">Products</div>
                                 </div>
                                 <div class="flex items-center gap-2">
-                                    <select
-                                        v-model="searchType"
-                                        class="px-3 py-1 rounded-md bg-gray-200 border-none text-sm"
-                                    >
-                                        <option value="name">Name</option>
-                                        <option value="code">Code</option>
-                                        <option value="category">Category</option>
-                                    </select>
                                     <input
+                                        ref="barcodeInput"
                                         v-model="searchQuery"
                                         type="text"
-                                        placeholder="Search products..."
-                                        class="px-3 py-1 rounded-md border border-gray-200 text-sm focus:outline-none focus:border-gray-400"
+                                        placeholder="Scan barcode or enter product code..."
+                                        class="px-3 py-1 rounded-md border border-gray-200 text-sm focus:outline-none focus:border-gray-400 w-full"
+                                        @keyup="handleBarcodeInput"
+                                        autofocus
                                     />
                                 </div>
                             </div>
@@ -282,7 +289,7 @@ const createOrder = () => {
                                 <div class="pt-2 rounded-md shadow-lg">
                                     <div class=" px-4 flex justify-between ">
                                         <span class="font-semibold text-sm">Subtotal</span>
-                                        <span class="font-bold">{{ getCurrency() }}{{ cartSubtotal }}</span>
+                                        <span class="font-bold">{{ getCurrency() }}{{ cartSubtotal.toFixed(2) }}</span>
                                     </div>
                                     <div class=" px-4 flex justify-between ">
                                         <span class="font-semibold text-sm">Sales Tax({{ tax }}%)</span>
@@ -394,3 +401,5 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 </style>
+
+

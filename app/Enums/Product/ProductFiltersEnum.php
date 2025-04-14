@@ -23,6 +23,7 @@ enum ProductFiltersEnum: string implements BaseEnumInterface
     case QUANTITY       = 'quantity';
     case QUANTITIES     = 'quantities';
     case STATUS         = 'status';
+    case BARCODE        = 'barcode';
     case CREATED_AT     = 'created_at';
 
     public static function labels(): array
@@ -41,6 +42,7 @@ enum ProductFiltersEnum: string implements BaseEnumInterface
             self::UNIT_TYPE_ID->value   => "Unit Type",
             self::QUANTITY->value       => "Quantity",
             self::STATUS->value         => "Status",
+            self::BARCODE->value        => "Barcode",
         ];
     }
 }

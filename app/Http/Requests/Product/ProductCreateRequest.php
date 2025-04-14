@@ -5,6 +5,7 @@ namespace App\Http\Requests\Product;
 use App\Enums\Product\ProductFieldsEnum;
 use App\Enums\Product\ProductStatusEnum;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\UnitType;
 use Illuminate\Foundation\Http\FormRequest;
@@ -55,6 +56,7 @@ class ProductCreateRequest extends FormRequest
             ProductFieldsEnum::QUANTITY->value      => ["required", "numeric", "gte:0"],
             ProductFieldsEnum::PHOTO->value         => ["required", "file", "mimes:jpg,jpeg,png,gif,svg", "max:1024"],
             ProductFieldsEnum::STATUS->value        => ["required", "string", Rule::in(ProductStatusEnum::values())],
+            ProductFieldsEnum::BARCODE->value       => ["required", "string", "max:255"],
         ];
     }
 }

@@ -25,6 +25,7 @@ enum ProductFieldsEnum: string implements BaseEnumInterface
     case PHOTO          = 'photo';
     case STATUS         = 'status';
     case CREATED_AT     = 'created_at';
+    case BARCODE        = 'barcode'; // nullable
 
     public static function labels(): array
     {
@@ -44,6 +45,7 @@ enum ProductFieldsEnum: string implements BaseEnumInterface
             self::QUANTITY->value       => "Quantity",
             self::PHOTO->value          => "Photo",
             self::STATUS->value         => "Status",
+            self::BARCODE->value        => "Barcode",
         ];
     }
 }

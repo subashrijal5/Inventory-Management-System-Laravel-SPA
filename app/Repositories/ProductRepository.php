@@ -166,6 +166,9 @@ class ProductRepository
             ->when(isset($filters[ProductFiltersEnum::SELLING_PRICE->value]), function ($query) use ($filters) {
                 $query->whereBetween(ProductFieldsEnum::SELLING_PRICE->value, $filters[ProductFiltersEnum::SELLING_PRICE->value]);
             })
+            ->when(isset($filters[ProductFiltersEnum::BARCODE->value]), function ($query) use ($filters) {
+                $query->where(ProductFieldsEnum::BARCODE->value, $filters[ProductFiltersEnum::BARCODE->value]);
+            })
             ->when(isset($filters[ProductFiltersEnum::STATUS->value]), function ($query) use ($filters) {
                 $query->where(ProductFieldsEnum::STATUS->value, $filters[ProductFiltersEnum::STATUS->value]);
             })

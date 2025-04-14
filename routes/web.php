@@ -56,6 +56,9 @@ Route::middleware('auth')->group(function () {
     Route::apiResource('unit-types', UnitTypeController::class);
     Route::apiResource('suppliers', SupplierController::class);
     Route::resource('products', ProductController::class);
+    Route::get('products/barcode/scanner', [ProductController::class, 'barcodeScanner'])->name('products.barcode-scanner');
+    Route::get('products/search/{barcode}', [ProductController::class, 'searchByBarcode'])->name('products.search-by-barcode');
+    Route::post('products/barcode/create', [ProductController::class, 'createWithBarcode'])->name('products.create-with-barcode');
     Route::apiResource('expenses', ExpenseController::class);
     Route::apiResource('customers', CustomerController::class);
     Route::apiResource('employees', EmployeeController::class);
