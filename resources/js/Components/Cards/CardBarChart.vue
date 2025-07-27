@@ -6,10 +6,10 @@
             <div class="flex flex-wrap items-center">
                 <div class="relative w-full max-w-full flex-grow flex-1">
                     <h6 class="uppercase text-blueGray-400 mb-1 text-xs font-semibold">
-                        Performance
+                        {{ $t('dashboard.performance') }}
                     </h6>
                     <h2 class="text-blueGray-700 text-xl font-semibold">
-                        Total orders
+                        {{ $t('dashboard.total_orders') }}
                     </h2>
                 </div>
             </div>
@@ -58,7 +58,7 @@ export default {
                     responsive: true,
                     title: {
                         display: false,
-                        text: "Orders Chart",
+                        text: this.$t('dashboard.orders_chart'),
                     },
                     tooltips: {
                         mode: "index",
@@ -81,7 +81,7 @@ export default {
                                 display: false,
                                 scaleLabel: {
                                     display: true,
-                                    labelString: "Month",
+                                    labelString: this.$t('dashboard.month'),
                                 },
                                 gridLines: {
                                     borderDash: [2],
@@ -98,7 +98,7 @@ export default {
                                 display: true,
                                 scaleLabel: {
                                     display: false,
-                                    labelString: "Value",
+                                    labelString: this.$t('dashboard.value'),
                                 },
                                 gridLines: {
                                     borderDash: [2],

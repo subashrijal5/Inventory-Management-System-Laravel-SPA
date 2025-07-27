@@ -6,10 +6,10 @@
             <div class="flex flex-wrap items-center">
                 <div class="relative w-full max-w-full flex-grow flex-1">
                     <h6 class="uppercase text-blueGray-100 mb-1 text-xs font-semibold">
-                        Overview
+                        {{ $t('dashboard.overview') }}
                     </h6>
                     <h2 class="text-white text-xl font-semibold">
-                        Profit value
+                        {{ $t('dashboard.profit_value') }}
                     </h2>
                 </div>
             </div>
@@ -57,7 +57,7 @@ export default {
                     responsive: true,
                     title: {
                         display: false,
-                        text: "Sales Charts",
+                        text: this.$t('dashboard.sales_charts'),
                         fontColor: "white",
                     },
                     legend: {
@@ -84,7 +84,7 @@ export default {
                                 display: true,
                                 scaleLabel: {
                                     display: false,
-                                    labelString: "Month",
+                                    labelString: this.$t('dashboard.month'),
                                     fontColor: "white",
                                 },
                                 gridLines: {
@@ -106,7 +106,7 @@ export default {
                                 display: true,
                                 scaleLabel: {
                                     display: false,
-                                    labelString: "Value",
+                                    labelString: this.$t('dashboard.value'),
                                     fontColor: "white",
                                 },
                                 gridLines: {

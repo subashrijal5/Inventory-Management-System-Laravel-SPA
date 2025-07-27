@@ -168,6 +168,23 @@ export default {
         created: 'Created successfully'
     },
 
+    // Dashboard
+    dashboard: {
+        orders: 'ORDERS',
+        profit: 'PROFIT',
+        loss: 'LOSS',
+        expenses: 'EXPENSES',
+        since_last_month: 'Since last month',
+        overview: 'Overview',
+        profit_value: 'Profit value',
+        performance: 'Performance',
+        total_orders: 'Total orders',
+        sales_charts: 'Sales Charts',
+        orders_chart: 'Orders Chart',
+        month: 'Month',
+        value: 'Value'
+    },
+
     // Common
     common: {
         action: 'Action',

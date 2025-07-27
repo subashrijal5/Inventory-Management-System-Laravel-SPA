@@ -84,6 +84,24 @@ export default {
       status: 'स्थिति'
     }
   },
+
+  // Dashboard
+  dashboard: {
+    orders: 'अर्डरहरू',
+    profit: 'नाफा',
+    loss: 'नोक्सान',
+    expenses: 'खर्चहरू',
+    since_last_month: 'गत महिनादेखि',
+    overview: 'सिंहावलोकन',
+    profit_value: 'नाफाको मूल्य',
+    performance: 'प्रदर्शन',
+    total_orders: 'कुल अर्डरहरू',
+    sales_charts: 'बिक्री चार्टहरू',
+    orders_chart: 'अर्डर चार्ट',
+    month: 'महिना',
+    value: 'मूल्य'
+  },
+
   fields: {
     name: 'नाम',
     email: 'इमेल',
