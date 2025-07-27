@@ -3,6 +3,9 @@ import Sidebar from "@/Components/Sidebar/Sidebar.vue";
 import AdminNavbar from "@/Components/Navbars/AdminNavbar.vue";
 import FooterAdmin from "@/Components/Footers/FooterAdmin.vue";
 import {Notification, Notivue, pastelTheme} from "notivue";
+import { useSidebar } from "@/composables/useSidebar.js";
+
+const { isCollapsed } = useSidebar();
 </script>
 
 <template>
@@ -16,7 +19,12 @@ import {Notification, Notivue, pastelTheme} from "notivue";
     <div>
         <Sidebar/>
 
-        <div class="relative md:ml-64 bg-blueGray-100">
+        <div 
+            class="relative bg-blueGray-100 transition-all duration-300 ease-in-out"
+            :class="[
+                isCollapsed ? 'md:ml-16' : 'md:ml-64'
+            ]"
+        >
             <AdminNavbar>
                 <template #breadcrumb>
                     <slot name="breadcrumb"/>

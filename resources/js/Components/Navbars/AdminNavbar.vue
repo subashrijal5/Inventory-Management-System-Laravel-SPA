@@ -3,6 +3,15 @@
     <nav
         class="absolute top-0 left-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">
         <div class="w-full mx-autp items-center flex justify-between md:flex-nowrap flex-wrap md:px-10 px-4">
+            <!-- Sidebar Toggle Button -->
+            <button
+                @click="toggleSidebar"
+                class="text-white hover:text-gray-300 focus:outline-none focus:text-gray-300 transition-colors duration-200 mr-4"
+                title="Toggle Sidebar"
+            >
+                <i class="fas fa-bars text-lg"></i>
+            </button>
+            
             <!-- Brand -->
             <p class="text-white text-sm uppercase hidden lg:inline-block font-semibold">
                 <slot name="breadcrumb"/>
@@ -43,14 +52,16 @@
 import UserDropdown from "@/Components/Dropdowns/UserDropdown.vue";
 import LanguageSwitcher from "@/Components/LanguageSwitcher.vue";
 import {useForm} from "@inertiajs/vue3";
-import {showToast} from "@/Utils/Helper.js";
+import { useSidebar } from "@/composables/useSidebar.js";
+
+const { toggleSidebar } = useSidebar();
 
 const form = useForm({
     keyword: null,
 });
 
 const searchProduct = () => {
-    form.get(route('carts.index'), {
+    form.get(route('products.index'), {
         preserveScroll: true,
     });
 };

@@ -1,6 +1,9 @@
 <template>
     <nav
-        class="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6"
+        class="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative z-10 py-4 transition-all duration-300 ease-in-out"
+        :class="[
+            isCollapsed ? 'md:w-16 px-2' : 'md:w-64 px-6'
+        ]"
     >
         <div
             class="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto"
@@ -15,10 +18,18 @@
             </button>
             <!-- Brand -->
             <Link
-                class="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
+                class="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0 transition-all duration-300"
                 href="/"
+                :class="{ 'md:justify-center': isCollapsed }"
             >
-                <ApplicationLogo color="black" class="hidden sm:block" />
+                <ApplicationLogo 
+                    color="black" 
+                    :class="[
+                        'hidden sm:block transition-all duration-300',
+                        isCollapsed ? 'h-8 w-8' : 'h-12 w-auto'
+                    ]"
+                    :type="isCollapsed ? 'short' : 'full'"
+                />
             </Link>
             <!-- User -->
             <ul class="md:hidden items-center flex flex-wrap list-none">
@@ -78,78 +89,91 @@
                         :name="$t('navigation.dashboard')"
                         routeName="dashboard"
                         icon="fas fa-tv"
+                        :collapsed="isCollapsed"
                     />
 
                     <SidebarItem
                         :name="$t('navigation.pos')"
                         routeName="carts.index"
                         icon="fas fa-shopping-cart"
+                        :collapsed="isCollapsed"
                     />
 
                     <SidebarItem
                         :name="$t('navigation.orders')"
                         routeName="orders.index"
                         icon="fas fa-database"
+                        :collapsed="isCollapsed"
                     />
 
                     <SidebarItem
                         :name="$t('navigation.transactions')"
                         routeName="transactions.index"
                         icon="fas fa-dollar-sign"
+                        :collapsed="isCollapsed"
                     />
 
                     <SidebarItem
                         :name="$t('navigation.categories')"
                         routeName="categories.index"
                         icon="fas fa-list"
+                        :collapsed="isCollapsed"
                     />
 
                     <SidebarItem
                         :name="$t('navigation.unit_types')"
                         routeName="unit-types.index"
                         icon="fa fa-balance-scale"
+                        :collapsed="isCollapsed"
                     />
 
                     <SidebarItem
                         :name="$t('navigation.suppliers')"
                         routeName="suppliers.index"
                         icon="fas fa-users-cog"
+                        :collapsed="isCollapsed"
                     />
 
                     <SidebarItem
                         :name="$t('navigation.products')"
                         routeName="products.index"
                         icon="fas fa-shopping-bag"
+                        :collapsed="isCollapsed"
                     />
 
                     <SidebarItem
                         :name="$t('navigation.customers')"
                         routeName="customers.index"
                         icon="fas fa-users"
+                        :collapsed="isCollapsed"
                     />
 
                     <SidebarItem
                         :name="$t('navigation.employees')"
                         routeName="employees.index"
                         icon="fas fa-house-user"
+                        :collapsed="isCollapsed"
                     />
 
                     <SidebarItem
                         :name="$t('navigation.salary')"
                         routeName="salaries.index"
                         icon="fas fa-money-bill"
+                        :collapsed="isCollapsed"
                     />
 
                     <SidebarItem
                         :name="$t('navigation.expenses')"
                         routeName="expenses.index"
                         icon="fas fa-book"
+                        :collapsed="isCollapsed"
                     />
 
                     <SidebarItem
                         :name="$t('navigation.settings')"
                         routeName="profile.edit"
                         icon="fas fa-tools"
+                        :collapsed="isCollapsed"
                     />
                 </ul>
 
@@ -163,6 +187,9 @@
 
 <script setup>
 import {useForm} from "@inertiajs/vue3";
+import { useSidebar } from "@/composables/useSidebar.js";
+
+const { isCollapsed } = useSidebar();
 
 const form = useForm({
     keyword: null,
