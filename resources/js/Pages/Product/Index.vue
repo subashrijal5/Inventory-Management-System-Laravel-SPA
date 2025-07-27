@@ -6,8 +6,11 @@ import TableData from "@/Components/TableData.vue";
 import Button from "@/Components/Button.vue";
 import Modal from "@/Components/Modal.vue";
 import {useForm} from '@inertiajs/vue3';
-import {ref} from 'vue';
+import {ref, computed} from 'vue';
 import {numberFormat, showToast, truncateString} from "@/Utils/Helper.js";
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 defineProps({
     filters: {
@@ -22,7 +25,18 @@ const selectedProduct = ref(null);
 const showCreateModal = ref(false);
 const showEditModal = ref(false);
 const showDeleteModal = ref(false);
-const tableHeads = ref(['#', "Name", "Product Number", "Product Code", "Category", "Supplier", "Quantity", "Status", "Action"]);
+
+const tableHeads = computed(() => [
+    '#', 
+    t('fields.name'), 
+    t('inventory.product_number'), 
+    t('inventory.product_code'), 
+    t('navigation.categories'), 
+    t('navigation.suppliers'), 
+    t('fields.quantity'), 
+    t('fields.status'), 
+    t('common.action')
+]);
 
 const form = useForm({
     name: null,
@@ -57,11 +71,11 @@ const closeModal = () => {
 </script>
 
 <template>
-    <Head title="Product"/>
+    <Head :title="$t('navigation.products')"/>
 
     <AuthenticatedLayout>
         <template #breadcrumb>
-            Products
+            {{ $t('navigation.products') }}
         </template>
 
         <div class="flex flex-wrap">
@@ -74,12 +88,12 @@ const closeModal = () => {
                 >
                     <template #cardHeader>
                         <div class="flex justify-between items-center">
-                            <h4 class="text-2xl">Apply filters({{products.total}})</h4>
+                            <h4 class="text-2xl">{{ $t('common.apply_filters') }}({{products.total}})</h4>
                             <Button
                                 :href="route('products.create')"
                                 buttonType="link"
                             >
-                                Create Product
+                                {{ $t('actions.create') }} {{ $t('navigation.products') }}
                             </Button>
                         </div>
                     </template>
@@ -92,7 +106,7 @@ const closeModal = () => {
                             <img
                                 :src="product.photo"
                                 class="h-12 w-12 bg-white rounded-full border"
-                                alt="Inventory management system"
+                                :alt="$t('common.inventory_management_system')"
                             />
                             <span class="ml-3 font-bold text-blueGray-600">{{ truncateString(product.name, 15) }}</span>
                         </TableData>
@@ -102,12 +116,12 @@ const closeModal = () => {
                         <TableData :title="product.supplier?.name">{{ truncateString(product.supplier?.name ?? '-') }}</TableData>
                         <TableData>
                             {{ numberFormat(product.quantity) }} {{ product.unit_type?.symbol }}
-                            <span v-if="product.quantity > 0 && product.quantity < 10" class="text-xs font-semibold inline-block py-1 px-2 rounded text-amber-600 bg-amber-200">Low Stock</span>
-                            <span v-if="product.quantity < 1" class="text-xs font-semibold inline-block py-1 px-2 rounded text-red-600 bg-red-200">Stock Out</span>
+                            <span v-if="product.quantity > 0 && product.quantity < 10" class="text-xs font-semibold inline-block py-1 px-2 rounded text-amber-600 bg-amber-200">{{ $t('inventory.low_stock') }}</span>
+                            <span v-if="product.quantity < 1" class="text-xs font-semibold inline-block py-1 px-2 rounded text-red-600 bg-red-200">{{ $t('inventory.out_of_stock') }}</span>
                         </TableData>
                         <TableData>
-                            <span v-if="product.status === 'active'" class="text-xs font-semibold inline-block py-1 px-2 rounded text-emerald-600 bg-emerald-200">Active</span>
-                            <span v-else class="text-xs font-semibold inline-block py-1 px-2 rounded text-red-600 bg-red-200">Inactive</span>
+                            <span v-if="product.status === 'active'" class="text-xs font-semibold inline-block py-1 px-2 rounded text-emerald-600 bg-emerald-200">{{ $t('status.active') }}</span>
+                            <span v-else class="text-xs font-semibold inline-block py-1 px-2 rounded text-red-600 bg-red-200">{{ $t('status.inactive') }}</span>
                         </TableData>
                         <TableData>
                             <Button
@@ -131,15 +145,15 @@ const closeModal = () => {
 
         <!--Delete data-->
         <Modal
-            title="Delete"
+            :title="$t('actions.delete')"
             :show="showDeleteModal"
             :formProcessing="form.processing"
             @close="closeModal"
             @submitAction="deleteProduct"
             maxWidth="sm"
-            submitButtonText="Yes, delete it!"
+            :submitButtonText="$t('messages.confirm_delete_action')"
         >
-            Are you sure you want to delete this product?
+            {{ $t('messages.confirm_delete_product') }}
         </Modal>
     </AuthenticatedLayout>
 </template>

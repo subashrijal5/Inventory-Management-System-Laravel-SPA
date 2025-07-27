@@ -6,6 +6,12 @@ import TableData from "@/Components/TableData.vue";
 import Button from "@/Components/Button.vue";
 import InputError from "@/Components/InputError.vue";
 import Modal from "@/Components/Modal.vue";
+import {useForm} from '@inertiajs/vue3';
+import {nextTick, ref, computed} from 'vue';
+import {showToast} from "@/Utils/Helper.js";
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 defineProps({
     filters: {
@@ -16,16 +22,13 @@ defineProps({
     },
 });
 
-import {useForm} from '@inertiajs/vue3';
-import {nextTick, ref} from 'vue';
-import {showToast} from "@/Utils/Helper.js";
-
 const selectedCategory = ref(null);
 const showCreateModal = ref(false);
 const showEditModal = ref(false);
 const showDeleteModal = ref(false);
 const nameInput = ref(null);
-const tableHeads = ref(['#', "Name", "Action"]);
+
+const tableHeads = computed(() => ['#', t('fields.name'), t('common.action')]);
 
 const form = useForm({
     name: null,
@@ -91,11 +94,11 @@ const closeModal = () => {
 </script>
 
 <template>
-    <Head title="Category"/>
+    <Head :title="$t('navigation.categories')"/>
 
     <AuthenticatedLayout>
         <template #breadcrumb>
-            Categories
+            {{ $t('navigation.categories') }}
         </template>
 
         <div class="flex flex-wrap">
@@ -108,8 +111,8 @@ const closeModal = () => {
                 >
                     <template #cardHeader>
                         <div class="flex justify-between items-center">
-                            <h4 class="text-2xl">Apply filters({{categories.total}})</h4>
-                            <Button @click="createCategoryModal">Create Category</Button>
+                            <h4 class="text-2xl">{{ $t('actions.filter') }}({{categories.total}})</h4>
+                            <Button @click="createCategoryModal">{{ $t('category.create_category') }}</Button>
                         </div>
                     </template>
 
@@ -136,21 +139,21 @@ const closeModal = () => {
 
         <!--Create data-->
         <Modal
-            title="Create"
+            :title="$t('actions.create')"
             :show="showCreateModal"
             :formProcessing="form.processing"
             @close="closeModal"
             @submitAction="createCategory"
         >
             <div>
-                <label for="name">Name</label>
+                <label for="name">{{ $t('fields.name') }}</label>
                 <input
                     id="name"
                     ref="nameInput"
                     v-model="form.name"
                     @keyup.enter="createCategory"
                     type="text"
-                    placeholder="Enter name"
+                    :placeholder="$t('category.enter_name')"
                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full"
                 />
                 <InputError :message="form.errors.name"/>
@@ -159,21 +162,21 @@ const closeModal = () => {
 
         <!--Edit data-->
         <Modal
-            title="Edit"
+            :title="$t('actions.edit')"
             :show="showEditModal"
             :formProcessing="form.processing"
             @close="closeModal"
             @submitAction="updateCategory"
         >
             <div>
-                <label for="name">Name</label>
+                <label for="name">{{ $t('fields.name') }}</label>
                 <input
                     id="name"
                     ref="nameInput"
                     v-model="form.name"
                     @keyup.enter="updateCategory"
                     type="text"
-                    placeholder="Enter name"
+                    :placeholder="$t('category.enter_name')"
                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full"
                 />
                 <InputError :message="form.errors.name"/>
@@ -182,15 +185,15 @@ const closeModal = () => {
 
         <!--Delete data-->
         <Modal
-            title="Delete"
+            :title="$t('actions.delete')"
             :show="showDeleteModal"
             :formProcessing="form.processing"
             @close="closeModal"
             @submitAction="deleteCategory"
             maxWidth="sm"
-            submitButtonText="Yes, delete it!"
+            :submitButtonText="$t('category.confirm_delete_button')"
         >
-            Are you sure you want to delete this category?
+            {{ $t('category.confirm_delete_category') }}
         </Modal>
     </AuthenticatedLayout>
 </template>

@@ -6,6 +6,12 @@ import TableData from "@/Components/TableData.vue";
 import Button from "@/Components/Button.vue";
 import InputError from "@/Components/InputError.vue";
 import Modal from "@/Components/Modal.vue";
+import {useForm} from '@inertiajs/vue3';
+import {nextTick, ref} from 'vue';
+import {showToast} from "@/Utils/Helper.js";
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 defineProps({
     filters: {
@@ -16,16 +22,12 @@ defineProps({
     },
 });
 
-import {useForm} from '@inertiajs/vue3';
-import {nextTick, ref} from 'vue';
-import {showToast} from "@/Utils/Helper.js";
-
 const selectedUnitType = ref(null);
 const showCreateModal = ref(false);
 const showEditModal = ref(false);
 const showDeleteModal = ref(false);
 const nameInput = ref(null);
-const tableHeads = ref(['#', "Name", "Symbol", "Action"]);
+const tableHeads = ref(['#', t('fields.name'), t('unit_type.symbol'), t('fields.action')]);
 
 const form = useForm({
     name: null,
@@ -93,11 +95,11 @@ const closeModal = () => {
 </script>
 
 <template>
-    <Head title="UnitType"/>
+    <Head :title="$t('navigation.unit_types')"/>
 
     <AuthenticatedLayout>
         <template #breadcrumb>
-            Unit Types
+            {{ $t('navigation.unit_types') }}
         </template>
 
         <div class="flex flex-wrap">
@@ -110,8 +112,8 @@ const closeModal = () => {
                 >
                     <template #cardHeader>
                         <div class="flex justify-between items-center">
-                            <h4 class="text-2xl">Apply filters({{unitTypes.total}})</h4>
-                            <Button @click="createUnitTypeModal">Create UnitType</Button>
+                            <h4 class="text-2xl">{{ $t('common.apply_filters') }}({{unitTypes.total}})</h4>
+                            <Button @click="createUnitTypeModal">{{ $t('unit_type.create_unit_type') }}</Button>
                         </div>
                     </template>
 
@@ -139,33 +141,33 @@ const closeModal = () => {
 
         <!--Create data-->
         <Modal
-            title="Create"
+            :title="$t('common.create')"
             :show="showCreateModal"
             :formProcessing="form.processing"
             @close="closeModal"
             @submitAction="createUnitType"
         >
             <div>
-                <label for="name">Name</label>
+                <label for="name">{{ $t('fields.name') }}</label>
                 <input
                     id="name"
                     ref="nameInput"
                     v-model="form.name"
                     @keyup.enter="createUnitType"
                     type="text"
-                    placeholder="Enter name"
+                    :placeholder="$t('placeholders.enter_name')"
                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full"
                 />
                 <InputError :message="form.errors.name"/>
             </div>
             <div class="mt-2">
-                <label for="symbol">Symbol</label>
+                <label for="symbol">{{ $t('unit_type.symbol') }}</label>
                 <input
                     id="symbol"
                     v-model="form.symbol"
                     @keyup.enter="createUnitType"
                     type="text"
-                    placeholder="Enter symbol"
+                    :placeholder="$t('unit_type.enter_symbol')"
                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full"
                 />
                 <InputError :message="form.errors.symbol"/>
@@ -174,33 +176,33 @@ const closeModal = () => {
 
         <!--Edit data-->
         <Modal
-            title="Edit"
+            :title="$t('actions.edit')"
             :show="showEditModal"
             :formProcessing="form.processing"
             @close="closeModal"
             @submitAction="updateUnitType"
         >
             <div>
-                <label for="name">Name</label>
+                <label for="name">{{ $t('fields.name') }}</label>
                 <input
                     id="name"
                     ref="nameInput"
                     v-model="form.name"
                     @keyup.enter="updateUnitType"
                     type="text"
-                    placeholder="Enter name"
+                    :placeholder="$t('placeholders.enter_name')"
                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full"
                 />
                 <InputError :message="form.errors.name"/>
             </div>
             <div class="mt-2">
-                <label for="symbol">Symbol</label>
+                <label for="symbol">{{ $t('unit_type.symbol') }}</label>
                 <input
                     id="symbol"
                     v-model="form.symbol"
                     @keyup.enter="updateUnitType"
                     type="text"
-                    placeholder="Enter symbol"
+                    :placeholder="$t('unit_type.enter_symbol')"
                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full"
                 />
                 <InputError :message="form.errors.symbol"/>
@@ -209,15 +211,15 @@ const closeModal = () => {
 
         <!--Delete data-->
         <Modal
-            title="Delete"
+            :title="$t('actions.delete')"
             :show="showDeleteModal"
             :formProcessing="form.processing"
             @close="closeModal"
             @submitAction="deleteUnitType"
             maxWidth="sm"
-            submitButtonText="Yes, delete it!"
+            :submitButtonText="$t('unit_type.confirm_delete_button')"
         >
-            Are you sure you want to delete this unit type?
+            {{ $t('unit_type.confirm_delete_unit_type') }}
         </Modal>
     </AuthenticatedLayout>
 </template>

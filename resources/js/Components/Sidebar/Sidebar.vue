@@ -64,8 +64,8 @@
                         <input
                             type="text"
                             v-model="form.keyword"
-                            placeholder="Search product..."
-                            class="border-0 px-3 py-2 h-12 border border-solid border-blueGray-500 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-base leading-snug shadow-none outline-none focus:outline-none w-full font-normal"
+                            :placeholder="$t('actions.search') + ' ' + $t('navigation.products').toLowerCase() + '...'"
+                            class="border-0 px-3 py-2 h-12  border-solid border-blueGray-500 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-base leading-snug shadow-none outline-none focus:outline-none w-full font-normal"
                         />
                     </div>
                 </form>
@@ -75,79 +75,79 @@
                 <!-- Navigation -->
                 <ul class="md:flex-col md:min-w-full flex flex-col list-none">
                     <SidebarItem
-                        name="Dashboard"
+                        :name="$t('navigation.dashboard')"
                         routeName="dashboard"
                         icon="fas fa-tv"
                     />
 
                     <SidebarItem
-                        name="POS"
+                        :name="$t('navigation.pos')"
                         routeName="carts.index"
                         icon="fas fa-shopping-cart"
                     />
 
                     <SidebarItem
-                        name="Orders"
+                        :name="$t('navigation.orders')"
                         routeName="orders.index"
                         icon="fas fa-database"
                     />
 
                     <SidebarItem
-                        name="Transactions"
+                        :name="$t('navigation.transactions')"
                         routeName="transactions.index"
                         icon="fas fa-dollar-sign"
                     />
 
                     <SidebarItem
-                        name="Categories"
+                        :name="$t('navigation.categories')"
                         routeName="categories.index"
                         icon="fas fa-list"
                     />
 
                     <SidebarItem
-                        name="Unit Types"
+                        :name="$t('navigation.unit_types')"
                         routeName="unit-types.index"
                         icon="fa fa-balance-scale"
                     />
 
                     <SidebarItem
-                        name="Suppliers"
+                        :name="$t('navigation.suppliers')"
                         routeName="suppliers.index"
                         icon="fas fa-users-cog"
                     />
 
                     <SidebarItem
-                        name="Products"
+                        :name="$t('navigation.products')"
                         routeName="products.index"
                         icon="fas fa-shopping-bag"
                     />
 
                     <SidebarItem
-                        name="Customer"
+                        :name="$t('navigation.customers')"
                         routeName="customers.index"
                         icon="fas fa-users"
                     />
 
                     <SidebarItem
-                        name="Employee"
+                        :name="$t('navigation.employees')"
                         routeName="employees.index"
                         icon="fas fa-house-user"
                     />
 
                     <SidebarItem
-                        name="Salary"
+                        :name="$t('navigation.salary')"
                         routeName="salaries.index"
                         icon="fas fa-money-bill"
                     />
 
                     <SidebarItem
-                        name="Expenses"
+                        :name="$t('navigation.expenses')"
                         routeName="expenses.index"
                         icon="fas fa-book"
                     />
 
                     <SidebarItem
-                        name="Settings"
+                        :name="$t('navigation.settings')"
                         routeName="profile.edit"
                         icon="fas fa-tools"
                     />

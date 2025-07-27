@@ -9,6 +9,9 @@ import Modal from "@/Components/Modal.vue";
 import {useForm} from '@inertiajs/vue3';
 import {nextTick, ref} from 'vue';
 import {showToast} from "@/Utils/Helper.js";
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 defineProps({
     filters: {
@@ -24,7 +27,7 @@ const showCreateModal = ref(false);
 const showEditModal = ref(false);
 const showDeleteModal = ref(false);
 const nameInput = ref(null);
-const tableHeads = ref(['#', "Name", "Email", "Phone", "Shop Name", "Action"]);
+const tableHeads = ref(['#', t('fields.name'), t('fields.email'), t('fields.phone'), t('supplier.shop_name'), t('fields.action')]);
 
 const form = useForm({
     name: null,
@@ -106,11 +109,11 @@ const closeModal = () => {
 </script>
 
 <template>
-    <Head title="Supplier"/>
+    <Head :title="$t('navigation.suppliers')"/>
 
     <AuthenticatedLayout>
         <template #breadcrumb>
-            Suppliers
+            {{ $t('navigation.suppliers') }}
         </template>
 
         <div class="flex flex-wrap">
@@ -123,8 +126,8 @@ const closeModal = () => {
                 >
                     <template #cardHeader>
                         <div class="flex justify-between items-center">
-                            <h4 class="text-2xl">Apply filters({{suppliers.total}})</h4>
-                            <Button @click="createSupplierModal">Create Supplier</Button>
+                            <h4 class="text-2xl">{{ $t('common.apply_filters') }}({{suppliers.total}})</h4>
+                            <Button @click="createSupplierModal">{{ $t('supplier.create_supplier') }}</Button>
                         </div>
                     </template>
 
@@ -161,7 +164,7 @@ const closeModal = () => {
 
         <!--Create data-->
         <Modal
-            title="Create"
+            :title="$t('actions.create')"
             :show="showCreateModal"
             :formProcessing="form.processing"
             @close="closeModal"
@@ -169,50 +172,50 @@ const closeModal = () => {
         >
             <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                 <div class="flex flex-col">
-                    <label for="name" class="text-stone-600 text-sm font-medium">Name</label>
+                    <label for="name" class="text-stone-600 text-sm font-medium">{{ $t('fields.name') }}</label>
                     <input
                         id="name"
                         ref="nameInput"
                         v-model="form.name"
                         @keyup.enter="createSupplier"
                         type="text"
-                        placeholder="Enter name"
+                        :placeholder="$t('supplier.enter_name')"
                         class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                     />
                     <InputError :message="form.errors.name"/>
                 </div>
                 <div class="flex flex-col">
-                    <label for="email" class="text-stone-600 text-sm font-medium">Email</label>
+                    <label for="email" class="text-stone-600 text-sm font-medium">{{ $t('fields.email') }}</label>
                     <input
                         id="email"
                         v-model="form.email"
                         @keyup.enter="createSupplier"
                         type="email"
-                        placeholder="Enter email"
+                        :placeholder="$t('supplier.enter_email')"
                         class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                     />
                     <InputError :message="form.errors.email"/>
                 </div>
                 <div class="flex flex-col">
-                    <label for="phone" class="text-stone-600 text-sm font-medium">Phone</label>
+                    <label for="phone" class="text-stone-600 text-sm font-medium">{{ $t('fields.phone') }}</label>
                     <input
                         id="phone"
                         v-model="form.phone"
                         @keyup.enter="createSupplier"
                         type="text"
-                        placeholder="Enter phone"
+                        :placeholder="$t('supplier.enter_phone')"
                         class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                     />
                     <InputError :message="form.errors.phone"/>
                 </div>
                 <div class="flex flex-col">
-                    <label for="shop_name" class="text-stone-600 text-sm font-medium">Shop Name</label>
+                    <label for="shop_name" class="text-stone-600 text-sm font-medium">{{ $t('supplier.shop_name') }}</label>
                     <input
                         id="shop_name"
                         v-model="form.shop_name"
                         @keyup.enter="createSupplier"
                         type="text"
-                        placeholder="Enter shop name"
+                        :placeholder="$t('supplier.enter_shop_name')"
                         class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                     />
                     <InputError :message="form.errors.shop_name"/>
@@ -227,7 +230,7 @@ const closeModal = () => {
                         <span v-if="form.photo" class="mt-2 text-base leading-normal">{{
                                 form.photo.name.replace(/(^.{17}).*(\..+$)/, "$1...$2")
                             }}</span>
-                        <span v-else class="mt-2 text-base leading-normal">Select a photo</span>
+                        <span v-else class="mt-2 text-base leading-normal">{{ $t('supplier.select_photo') }}</span>
                         <input
                             @input="form.photo = $event.target.files[0]"
                             type='file'
@@ -238,13 +241,13 @@ const closeModal = () => {
                     <InputError :message="form.errors.photo"/>
                 </div>
                 <div class="flex flex-col">
-                    <label for="address" class="text-stone-600 text-sm font-medium">Address</label>
+                    <label for="address" class="text-stone-600 text-sm font-medium">{{ $t('fields.address') }}</label>
                     <textarea
                         id="address"
                         v-model="form.address"
                         type="text"
                         rows="3"
-                        placeholder="Enter address"
+                        :placeholder="$t('supplier.enter_address')"
                         class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                     ></textarea>
                     <InputError :message="form.errors.address"/>
@@ -254,7 +257,7 @@ const closeModal = () => {
 
         <!--Edit data-->
         <Modal
-            title="Edit"
+            :title="$t('actions.edit')"
             :show="showEditModal"
             :formProcessing="form.processing"
             @close="closeModal"
@@ -262,50 +265,50 @@ const closeModal = () => {
         >
             <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                 <div class="flex flex-col">
-                    <label for="name" class="text-stone-600 text-sm font-medium">Name</label>
+                    <label for="name" class="text-stone-600 text-sm font-medium">{{ $t('fields.name') }}</label>
                     <input
                         id="name"
                         ref="nameInput"
                         v-model="form.name"
                         @keyup.enter="updateSupplier"
                         type="text"
-                        placeholder="Enter name"
+                        :placeholder="$t('supplier.enter_name')"
                         class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                     />
                     <InputError :message="form.errors.name"/>
                 </div>
                 <div class="flex flex-col">
-                    <label for="email" class="text-stone-600 text-sm font-medium">Email</label>
+                    <label for="email" class="text-stone-600 text-sm font-medium">{{ $t('fields.email') }}</label>
                     <input
                         id="email"
                         v-model="form.email"
                         @keyup.enter="updateSupplier"
                         type="email"
-                        placeholder="Enter email"
+                        :placeholder="$t('supplier.enter_email')"
                         class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                     />
                     <InputError :message="form.errors.email"/>
                 </div>
                 <div class="flex flex-col">
-                    <label for="phone" class="text-stone-600 text-sm font-medium">Phone</label>
+                    <label for="phone" class="text-stone-600 text-sm font-medium">{{ $t('fields.phone') }}</label>
                     <input
                         id="phone"
                         v-model="form.phone"
                         @keyup.enter="updateSupplier"
                         type="text"
-                        placeholder="Enter phone"
+                        :placeholder="$t('supplier.enter_phone')"
                         class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                     />
                     <InputError :message="form.errors.phone"/>
                 </div>
                 <div class="flex flex-col">
-                    <label for="shop_name" class="text-stone-600 text-sm font-medium">Shop Name</label>
+                    <label for="shop_name" class="text-stone-600 text-sm font-medium">{{ $t('supplier.shop_name') }}</label>
                     <input
                         id="shop_name"
                         v-model="form.shop_name"
                         @keyup.enter="updateSupplier"
                         type="text"
-                        placeholder="Enter shop name"
+                        :placeholder="$t('supplier.enter_shop_name')"
                         class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                     />
                     <InputError :message="form.errors.shop_name"/>
@@ -320,7 +323,7 @@ const closeModal = () => {
                         <span v-if="form.photo" class="mt-2 text-base leading-normal">{{
                                 form.photo.name.replace(/(^.{17}).*(\..+$)/, "$1...$2")
                             }}</span>
-                        <span v-else class="mt-2 text-base leading-normal">Select a photo</span>
+                        <span v-else class="mt-2 text-base leading-normal">{{ $t('supplier.select_photo') }}</span>
                         <input
                             @input="form.photo = $event.target.files[0]"
                             type='file'
@@ -331,13 +334,13 @@ const closeModal = () => {
                     <InputError :message="form.errors.photo"/>
                 </div>
                 <div class="flex flex-col">
-                    <label for="address" class="text-stone-600 text-sm font-medium">Address</label>
+                    <label for="address" class="text-stone-600 text-sm font-medium">{{ $t('fields.address') }}</label>
                     <textarea
                         id="address"
                         v-model="form.address"
                         type="text"
                         rows="3"
-                        placeholder="Enter address"
+                        :placeholder="$t('supplier.enter_address')"
                         class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                     ></textarea>
                     <InputError :message="form.errors.address"/>
@@ -347,15 +350,15 @@ const closeModal = () => {
 
         <!--Delete data-->
         <Modal
-            title="Delete"
+            :title="$t('actions.delete')"
             :show="showDeleteModal"
             :formProcessing="form.processing"
             @close="closeModal"
             @submitAction="deleteSupplier"
             maxWidth="sm"
-            submitButtonText="Yes, delete it!"
+            :submitButtonText="$t('supplier.confirm_delete_button')"
         >
-            Are you sure you want to delete this supplier?
+            {{ $t('supplier.confirm_delete_supplier') }}
         </Modal>
     </AuthenticatedLayout>
 </template>

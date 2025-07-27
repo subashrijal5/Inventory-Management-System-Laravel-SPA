@@ -6,6 +6,9 @@ import TableData from "@/Components/TableData.vue";
 import Button from "@/Components/Button.vue";
 import InputError from "@/Components/InputError.vue";
 import Modal from "@/Components/Modal.vue";
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 defineProps({
     filters: {
@@ -26,7 +29,7 @@ const showCreateModal = ref(false);
 const showEditModal = ref(false);
 const showDeleteModal = ref(false);
 const nameInput = ref(null);
-const tableHeads = ref(['#', "Name", "Amount", "Expense Date", "Action"]);
+const tableHeads = ref(['#', t('fields.name'), t('expense.amount'), t('expense.expense_date'), t('common.action')]);
 
 const form = useForm({
     name: "",
@@ -93,11 +96,11 @@ const closeModal = () => {
 </script>
 
 <template>
-    <Head title="Expense"/>
+    <Head :title="$t('navigation.expenses')"/>
 
     <AuthenticatedLayout>
         <template #breadcrumb>
-            Expenses
+            {{ $t('navigation.expenses') }}
         </template>
 
         <div class="flex flex-wrap">
@@ -110,8 +113,8 @@ const closeModal = () => {
                 >
                     <template #cardHeader>
                         <div class="flex justify-between items-center">
-                            <h4 class="text-2xl">Apply filters({{expenses.total}})</h4>
-                            <Button @click=" showCreateModal = true">Create Expense</Button>
+                            <h4 class="text-2xl">{{ $t('common.apply_filters') }}({{expenses.total}})</h4>
+                            <Button @click=" showCreateModal = true">{{ $t('expense.create_expense') }}</Button>
                         </div>
                     </template>
 
@@ -140,7 +143,7 @@ const closeModal = () => {
 
         <!--Create data-->
         <Modal
-            title="Create"
+            :title="$t('common.create')"
             :show="showCreateModal"
             :formProcessing="form.processing"
             @close="closeModal"
@@ -148,10 +151,10 @@ const closeModal = () => {
         >
             <div>
                 <DashboardInputGroup
-                    label="Name"
+                    :label="$t('fields.name')"
                     name="name"
                     v-model="form.name"
-                    placeholder="Enter name"
+                    :placeholder="$t('placeholders.enter_name')"
                     :errorMessage="form.errors.name"
                     @keyupEnter="createExpense"
                 />
@@ -159,10 +162,10 @@ const closeModal = () => {
             <div class="mt-2 grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                 <div class="flex flex-col overflow-auto">
                     <DashboardInputGroup
-                        label="Amount"
+                        :label="$t('expense.amount')"
                         name="amount"
                         v-model="form.amount"
-                        placeholder="Enter amount"
+                        :placeholder="$t('expense.enter_amount')"
                         :errorMessage="form.errors.amount"
                         @keyupEnter="createExpense"
                         type="number"
@@ -170,10 +173,10 @@ const closeModal = () => {
                 </div>
                 <div class="flex flex-col overflow-auto">
                     <DashboardInputGroup
-                        label="Expense Date"
+                        :label="$t('expense.expense_date')"
                         name="expense_date"
                         v-model="form.expense_date"
-                        placeholder="Enter expense date"
+                        :placeholder="$t('expense.enter_expense_date')"
                         :errorMessage="form.errors.expense_date"
                         @keyupEnter="createExpense"
                         type="date"
@@ -181,13 +184,13 @@ const closeModal = () => {
                 </div>
             </div>
             <div class="mt-2">
-                <label for="description" class="text-stone-600 text-sm font-medium">Description</label>
+                <label for="description" class="text-stone-600 text-sm font-medium">{{ $t('fields.description') }}</label>
                 <textarea
                     id="description"
                     v-model="form.description"
                     type="text"
                     rows="3"
-                    placeholder="Enter description"
+                    :placeholder="$t('placeholders.enter_description')"
                     class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                 ></textarea>
                 <InputError :message="form.errors.description"/>
@@ -196,7 +199,7 @@ const closeModal = () => {
 
         <!--Edit data-->
         <Modal
-            title="Edit"
+            :title="$t('common.edit')"
             :show="showEditModal"
             :formProcessing="form.processing"
             @close="closeModal"
@@ -204,46 +207,46 @@ const closeModal = () => {
         >
             <div>
                 <DashboardInputGroup
-                    label="Name"
+                    :label="$t('fields.name')"
                     name="name"
                     v-model="form.name"
-                    placeholder="Enter name"
+                    :placeholder="$t('placeholders.enter_name')"
                     :errorMessage="form.errors.name"
-                    @keyupEnter="createExpense"
+                    @keyupEnter="updateExpense"
                 />
             </div>
             <div class="mt-2 grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                 <div class="flex flex-col overflow-auto">
                     <DashboardInputGroup
-                        label="Amount"
+                        :label="$t('expense.amount')"
                         name="amount"
                         v-model="form.amount"
-                        placeholder="Enter amount"
+                        :placeholder="$t('expense.enter_amount')"
                         :errorMessage="form.errors.amount"
-                        @keyupEnter="createExpense"
+                        @keyupEnter="updateExpense"
                         type="number"
                     />
                 </div>
                 <div class="flex flex-col overflow-auto">
                     <DashboardInputGroup
-                        label="Expense Date"
+                        :label="$t('expense.expense_date')"
                         name="expense_date"
                         v-model="form.expense_date"
-                        placeholder="Enter expense date"
+                        :placeholder="$t('expense.enter_expense_date')"
                         :errorMessage="form.errors.expense_date"
-                        @keyupEnter="createExpense"
+                        @keyupEnter="updateExpense"
                         type="date"
                     />
                 </div>
             </div>
             <div class="mt-2">
-                <label for="description" class="text-stone-600 text-sm font-medium">Description</label>
+                <label for="description" class="text-stone-600 text-sm font-medium">{{ $t('fields.description') }}</label>
                 <textarea
                     id="description"
                     v-model="form.description"
                     type="text"
                     rows="3"
-                    placeholder="Enter description"
+                    :placeholder="$t('placeholders.enter_description')"
                     class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                 ></textarea>
                 <InputError :message="form.errors.description"/>
@@ -252,15 +255,15 @@ const closeModal = () => {
 
         <!--Delete data-->
         <Modal
-            title="Delete"
+            :title="$t('common.delete')"
             :show="showDeleteModal"
             :formProcessing="form.processing"
             @close="closeModal"
             @submitAction="deleteExpense"
             maxWidth="sm"
-            submitButtonText="Yes, delete it!"
+            :submitButtonText="$t('common.yes_delete_it')"
         >
-            Are you sure you want to delete this expense?
+            {{ $t('expense.delete_confirmation') }}
         </Modal>
     </AuthenticatedLayout>
 </template>

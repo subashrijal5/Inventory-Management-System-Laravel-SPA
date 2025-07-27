@@ -7,6 +7,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
@@ -38,6 +39,9 @@ Route::get('/', function () {
 
 // Contact
 Route::post('contacts', [ContactController::class, 'store'])->name('contacts.store');
+
+// Language
+Route::post('language', [LanguageController::class, 'changeLanguage'])->name('language.change');
 
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 

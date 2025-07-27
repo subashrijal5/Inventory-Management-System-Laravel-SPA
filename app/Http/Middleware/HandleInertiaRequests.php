@@ -46,6 +46,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'currency' => settings()->get(SettingFieldsEnum::CURRENCY_SYMBOL->value, '¥'),
             'decimal_point' => settings()->get(SettingFieldsEnum::DECIMAL_POINT->value, 4),
+            'locale' => app()->getLocale(),
         ];
     }
 }

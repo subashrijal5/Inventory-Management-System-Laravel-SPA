@@ -3,6 +3,9 @@ import InputError from '@/Components/InputError.vue';
 import {useForm} from '@inertiajs/vue3';
 import {ref} from 'vue';
 import SubmitButton from "@/Components/SubmitButton.vue";
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const passwordInput = ref(null);
 const currentPasswordInput = ref(null);
@@ -33,7 +36,7 @@ const updatePassword = () => {
 
 <template>
     <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
-        Update Password
+        {{ $t('profile.update_password') }}
     </h6>
 
     <form @submit.prevent="updatePassword">
@@ -44,7 +47,7 @@ const updatePassword = () => {
                         class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                         for="current_password"
                     >
-                        Current Password
+                        {{ $t('profile.current_password') }}
                     </label>
                     <input
                         id="current_password"
@@ -63,7 +66,7 @@ const updatePassword = () => {
                         class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                         for="password"
                     >
-                        New Password
+                        {{ $t('profile.new_password') }}
                     </label>
                     <input
                         id="password"
@@ -82,7 +85,7 @@ const updatePassword = () => {
                         class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                         for="password_confirmation"
                     >
-                        Confirm Password
+                        {{ $t('profile.confirm_password') }}
                     </label>
                     <input
                         id="password_confirmation"
@@ -100,7 +103,7 @@ const updatePassword = () => {
                     :processing="form.processing"
                     class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                 >
-                    Save
+                    {{ $t('actions.save') }}
                     <Transition
                         enter-active-class="transition ease-in-out"
                         enter-from-class="opacity-0"

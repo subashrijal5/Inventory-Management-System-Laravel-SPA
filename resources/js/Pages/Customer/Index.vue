@@ -7,9 +7,10 @@ import Button from "@/Components/Button.vue";
 import InputError from "@/Components/InputError.vue";
 import Modal from "@/Components/Modal.vue";
 import {useForm} from '@inertiajs/vue3';
-import {nextTick, ref} from 'vue';
+import {nextTick, ref, computed} from 'vue';
 import DashboardInputGroup from "@/Components/DashboardInputGroup.vue";
 import {showToast} from "@/Utils/Helper.js";
+import { useI18n } from 'vue-i18n';
 
 defineProps({
     filters: {
@@ -20,12 +21,14 @@ defineProps({
     },
 });
 
+const { t } = useI18n();
+
 const selectedCustomer = ref(null);
 const showCreateModal = ref(false);
 const showEditModal = ref(false);
 const showDeleteModal = ref(false);
 const nameInput = ref(null);
-const tableHeads = ref(['#', "Name", "Email", "Phone", "Action"]);
+const tableHeads = computed(() => ['#', t('fields.name'), t('fields.email'), t('fields.phone'), t('fields.action')]);
 
 const form = useForm({
     name: null,
@@ -104,11 +107,11 @@ const closeModal = () => {
 </script>
 
 <template>
-    <Head title="Customer"/>
+    <Head :title="$t('navigation.customers')"/>
 
     <AuthenticatedLayout>
         <template #breadcrumb>
-            Customers
+            {{ $t('navigation.customers') }}
         </template>
 
         <div class="flex flex-wrap">
@@ -121,8 +124,8 @@ const closeModal = () => {
                 >
                     <template #cardHeader>
                         <div class="flex justify-between items-center">
-                            <h4 class="text-2xl">Apply filters({{customers.total}})</h4>
-                            <Button @click="createCustomerModal">Create Customer</Button>
+                            <h4 class="text-2xl">{{ $t('common.apply_filters') }}({{customers.total}})</h4>
+                            <Button @click="createCustomerModal">{{ $t('customer.create_customer') }}</Button>
                         </div>
                     </template>
 
@@ -134,7 +137,7 @@ const closeModal = () => {
                             <img
                                 :src="customer.photo"
                                 class="h-12 w-12 bg-white rounded-full border"
-                                alt="Inventory management system"
+                                :alt="$t('common.inventory_management_system')"
                             />
                             <span class="ml-3 font-bold text-blueGray-600">{{ customer.name }}</span>
                         </TableData>
@@ -158,7 +161,7 @@ const closeModal = () => {
 
         <!--Create data-->
         <Modal
-            title="Create"
+            :title="$t('actions.create')"
             :show="showCreateModal"
             :formProcessing="form.processing"
             @close="closeModal"
@@ -167,20 +170,20 @@ const closeModal = () => {
             <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                 <div class="flex flex-col">
                     <DashboardInputGroup
-                        label="Name"
+                        :label="$t('fields.name')"
                         name="name"
                         v-model="form.name"
-                        placeholder="Enter name"
+                        :placeholder="$t('customer.enter_name')"
                         :errorMessage="form.errors.name"
                         @keyupEnter="createCustomer"
                     />
                 </div>
                 <div class="flex flex-col">
                     <DashboardInputGroup
-                        label="Email"
+                        :label="$t('fields.email')"
                         name="email"
                         v-model="form.email"
-                        placeholder="Enter email"
+                        :placeholder="$t('customer.enter_email')"
                         :errorMessage="form.errors.email"
                         @keyupEnter="createCustomer"
                         type="email"
@@ -188,10 +191,10 @@ const closeModal = () => {
                 </div>
                 <div class="flex flex-col">
                     <DashboardInputGroup
-                        label="Phone"
+                        :label="$t('fields.phone')"
                         name="phone"
                         v-model="form.phone"
-                        placeholder="Enter phone"
+                        :placeholder="$t('customer.enter_phone')"
                         :errorMessage="form.errors.phone"
                         @keyupEnter="createCustomer"
                     />
@@ -206,7 +209,7 @@ const closeModal = () => {
                         <span v-if="form.photo" class="mt-2 text-base leading-normal">{{
                                 form.photo.name.replace(/(^.{17}).*(\..+$)/, "$1...$2")
                             }}</span>
-                        <span v-else class="mt-2 text-base leading-normal">Select a photo</span>
+                        <span v-else class="mt-2 text-base leading-normal">{{ $t('customer.select_photo') }}</span>
                         <input
                             @input="form.photo = $event.target.files[0]"
                             type='file'
@@ -217,13 +220,13 @@ const closeModal = () => {
                     <InputError :message="form.errors.photo"/>
                 </div>
                 <div class="flex flex-col">
-                    <label for="address" class="text-stone-600 text-sm font-medium">Address</label>
+                    <label for="address" class="text-stone-600 text-sm font-medium">{{ $t('fields.address') }}</label>
                     <textarea
                         id="address"
                         v-model="form.address"
                         type="text"
                         rows="3"
-                        placeholder="Enter address"
+                        :placeholder="$t('customer.enter_address')"
                         class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                     ></textarea>
                     <InputError :message="form.errors.address"/>
@@ -233,7 +236,7 @@ const closeModal = () => {
 
         <!--Edit data-->
         <Modal
-            title="Edit"
+            :title="$t('actions.edit')"
             :show="showEditModal"
             :formProcessing="form.processing"
             @close="closeModal"
@@ -242,20 +245,20 @@ const closeModal = () => {
             <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                 <div class="flex flex-col">
                     <DashboardInputGroup
-                        label="Name"
+                        :label="$t('fields.name')"
                         name="name"
                         v-model="form.name"
-                        placeholder="Enter name"
+                        :placeholder="$t('customer.enter_name')"
                         :errorMessage="form.errors.name"
                         @keyupEnter="createCustomer"
                     />
                 </div>
                 <div class="flex flex-col">
                     <DashboardInputGroup
-                        label="Email"
+                        :label="$t('fields.email')"
                         name="email"
                         v-model="form.email"
-                        placeholder="Enter email"
+                        :placeholder="$t('customer.enter_email')"
                         :errorMessage="form.errors.email"
                         @keyupEnter="createCustomer"
                         type="email"
@@ -263,10 +266,10 @@ const closeModal = () => {
                 </div>
                 <div class="flex flex-col">
                     <DashboardInputGroup
-                        label="Phone"
+                        :label="$t('fields.phone')"
                         name="phone"
                         v-model="form.phone"
-                        placeholder="Enter phone"
+                        :placeholder="$t('customer.enter_phone')"
                         :errorMessage="form.errors.phone"
                         @keyupEnter="createCustomer"
                     />
@@ -281,7 +284,7 @@ const closeModal = () => {
                         <span v-if="form.photo" class="mt-2 text-base leading-normal">{{
                                 form.photo.name.replace(/(^.{17}).*(\..+$)/, "$1...$2")
                             }}</span>
-                        <span v-else class="mt-2 text-base leading-normal">Select a photo</span>
+                        <span v-else class="mt-2 text-base leading-normal">{{ $t('customer.select_photo') }}</span>
                         <input
                             @input="form.photo = $event.target.files[0]"
                             type='file'
@@ -292,13 +295,13 @@ const closeModal = () => {
                     <InputError :message="form.errors.photo"/>
                 </div>
                 <div class="flex flex-col">
-                    <label for="address" class="text-stone-600 text-sm font-medium">Address</label>
+                    <label for="address" class="text-stone-600 text-sm font-medium">{{ $t('fields.address') }}</label>
                     <textarea
                         id="address"
                         v-model="form.address"
                         type="text"
                         rows="3"
-                        placeholder="Enter address"
+                        :placeholder="$t('customer.enter_address')"
                         class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                     ></textarea>
                     <InputError :message="form.errors.address"/>
@@ -308,15 +311,15 @@ const closeModal = () => {
 
         <!--Delete data-->
         <Modal
-            title="Delete"
+            :title="$t('actions.delete')"
             :show="showDeleteModal"
             :formProcessing="form.processing"
             @close="closeModal"
             @submitAction="deleteCustomer"
             maxWidth="sm"
-            submitButtonText="Yes, delete it!"
+            :submitButtonText="$t('customer.confirm_delete_button')"
         >
-            Are you sure you want to delete this customer?
+            {{ $t('customer.confirm_delete_customer') }}
         </Modal>
     </AuthenticatedLayout>
 </template>

@@ -7,9 +7,10 @@ import Button from "@/Components/Button.vue";
 import InputError from "@/Components/InputError.vue";
 import Modal from "@/Components/Modal.vue";
 import {useForm} from '@inertiajs/vue3';
-import {ref} from 'vue';
+import {ref, computed} from 'vue';
 import {formatDatetime, getCurrency, numberFormat, showToast, truncateString} from "@/Utils/Helper.js";
 import TableHead from "@/Components/TableHead.vue";
+import { useI18n } from 'vue-i18n';
 
 defineProps({
     filters: {
@@ -23,11 +24,24 @@ defineProps({
     },
 });
 
+const { t } = useI18n();
+
 const selectedOrder = ref(null);
 const showOrderItemsModal = ref(false);
 const showPaymentModal = ref(false);
 const showSettleModal = ref(false);
-const tableHeads = ref(["Order Number", "Customer", "Summary(" + getCurrency() + ")", "Paid", "Due", "Profit", "Loss", "Status", "Date", "Action"]);
+const tableHeads = computed(() => [
+    t('fields.order_number'), 
+    t('fields.customer'), 
+    t('order.summary', { currency: getCurrency() }), 
+    t('fields.paid'), 
+    t('fields.due'), 
+    t('fields.profit'), 
+    t('fields.loss'), 
+    t('fields.status'), 
+    t('fields.date'), 
+    t('fields.action')
+]);
 
 const form = useForm({
     amount: null,
@@ -76,11 +90,11 @@ const closeModal = () => {
 </script>
 
 <template>
-    <Head title="Order"/>
+    <Head :title="$t('navigation.orders')"/>
 
     <AuthenticatedLayout>
         <template #breadcrumb>
-            Orders
+            {{ $t('navigation.orders') }}
         </template>
 
         <div class="flex flex-wrap">
@@ -93,11 +107,11 @@ const closeModal = () => {
                 >
                     <template #cardHeader>
                         <div class="flex justify-between items-center">
-                            <h4 class="text-2xl">Apply filters({{orders.total}})</h4>
+                            <h4 class="text-2xl">{{ $t('common.apply_filters') }}({{orders.total}})</h4>
                             <Button
                                 :href="route('carts.index')"
                                 buttonType="link"
-                            >Create Order</Button>
+                            >{{ $t('order.create_order') }}</Button>
                         </div>
                     </template>
 
@@ -105,12 +119,12 @@ const closeModal = () => {
                         <TableData>
                             <strong>#{{ order.order_number }}</strong>
                         </TableData>
-                        <TableData>{{ order.customer ? order.customer.name : 'Unknown' }}</TableData>
+                        <TableData>{{ order.customer ? order.customer.name : $t('common.unknown') }}</TableData>
                         <TableData class="text-start">
-                            <span>Sub Total: {{ order.sub_total }}</span><br>
-                            <span>Tax: {{ order.tax_total }}</span><br>
-                            <span>Discount: {{ order.discount_total }}</span><br>
-                            <span>Total: {{ order.total }}</span><br>
+                            <span>{{ $t('order.sub_total') }}: {{ order.sub_total }}</span><br>
+                            <span>{{ $t('order.tax') }}: {{ order.tax_total }}</span><br>
+                            <span>{{ $t('order.discount') }}: {{ order.discount_total }}</span><br>
+                            <span>{{ $t('order.total') }}: {{ order.total }}</span><br>
                         </TableData>
                         <TableData>{{ getCurrency() }}{{ order.paid }}</TableData>
                         <TableData>
@@ -119,7 +133,7 @@ const closeModal = () => {
                             <div class="flex" v-if="order.due > 0">
                                 <Button
                                     @click="payDueOrderModal(order)"
-                                    title="Pay Due"
+                                    :title="$t('order.pay_due')"
                                     class="px-2"
                                 >
                                     <i class="fa fa-money-bill-wave"></i>
@@ -128,7 +142,7 @@ const closeModal = () => {
                                     @click="settleOrderModal(order)"
                                     type="red"
                                     class="px-2"
-                                    title="Settle"
+                                    :title="$t('order.settle')"
                                 >
                                     <i class="fa fa-handshake"></i>
                                 </Button>
@@ -137,15 +151,15 @@ const closeModal = () => {
                         <TableData :class="order.profit > 0 ? 'text-emerald-500 font-bold' : ''">{{ getCurrency() }}{{ order.profit }}</TableData>
                         <TableData :class="order.loss > 0 ? 'text-red-500 font-bold' : ''">{{ getCurrency() }}{{ order.loss }}</TableData>
                         <TableData>
-                            <span v-if="order.status === 'paid'" class="text-xs font-semibold inline-block py-1 px-2 rounded text-emerald-600 bg-emerald-200">Paid</span>
-                            <span v-else-if="order.status === 'partial_paid'" class="text-xs font-semibold inline-block py-1 px-2 rounded text-amber-600 bg-amber-200">Partial Paid</span>
-                            <span v-else-if="order.status === 'over_paid'" class="text-xs font-semibold inline-block py-1 px-2 rounded text-purple-600 bg-purple-200">Over Paid</span>
-                            <span v-else-if="order.status === 'unpaid'" class="text-xs font-semibold inline-block py-1 px-2 rounded text-red-600 bg-red-200">Unpaid</span>
-                            <span v-else class="text-xs font-semibold inline-block py-1 px-2 rounded text-blue-600 bg-blue-200">Settled</span>
+                            <span v-if="order.status === 'paid'" class="text-xs font-semibold inline-block py-1 px-2 rounded text-emerald-600 bg-emerald-200">{{ $t('status.paid') }}</span>
+                            <span v-else-if="order.status === 'partial_paid'" class="text-xs font-semibold inline-block py-1 px-2 rounded text-amber-600 bg-amber-200">{{ $t('status.partial_paid') }}</span>
+                            <span v-else-if="order.status === 'over_paid'" class="text-xs font-semibold inline-block py-1 px-2 rounded text-purple-600 bg-purple-200">{{ $t('status.over_paid') }}</span>
+                            <span v-else-if="order.status === 'unpaid'" class="text-xs font-semibold inline-block py-1 px-2 rounded text-red-600 bg-red-200">{{ $t('status.unpaid') }}</span>
+                            <span v-else class="text-xs font-semibold inline-block py-1 px-2 rounded text-blue-600 bg-blue-200">{{ $t('status.settled') }}</span>
                         </TableData>
                         <TableData>{{ formatDatetime(order.created_at) }}</TableData>
                         <TableData>
-                            <Button @click="viewOrderItemsModal(order)" title="Order Items">
+                            <Button @click="viewOrderItemsModal(order)" :title="$t('order.order_items')">
                                 <i class="fa fa-list"></i>
                             </Button>
 <!--                            <Button-->
@@ -163,7 +177,7 @@ const closeModal = () => {
 
         <!--Show order items data-->
         <Modal
-            :title="'Order Items(' + selectedOrder?.order_items.length + ')'"
+            :title="$t('order.order_items_count', { count: selectedOrder?.order_items.length })"
             :show="showOrderItemsModal"
             @close="closeModal"
             maxWidth="4xl"
@@ -175,12 +189,12 @@ const closeModal = () => {
                     <table class="items-center w-full bg-transparent border-collapse">
                         <thead>
                         <tr>
-                            <TableHead>Product Name</TableHead>
-                            <TableHead>Product Number</TableHead>
-                            <TableHead>Product Code</TableHead>
-                            <TableHead>Price</TableHead>
-                            <TableHead>Quantity</TableHead>
-                            <TableHead>Action</TableHead>
+                            <TableHead>{{ $t('fields.product_name') }}</TableHead>
+                            <TableHead>{{ $t('fields.product_number') }}</TableHead>
+                            <TableHead>{{ $t('fields.product_code') }}</TableHead>
+                            <TableHead>{{ $t('fields.price') }}</TableHead>
+                            <TableHead>{{ $t('fields.quantity') }}</TableHead>
+                            <TableHead>{{ $t('fields.action') }}</TableHead>
                         </tr>
                         </thead>
                         <tbody>
@@ -190,16 +204,16 @@ const closeModal = () => {
                                 <img
                                     :src="orderItem.product_json.photo"
                                     class="h-12 w-12 bg-white rounded-full border"
-                                    alt="Inventory management system"
+                                    :alt="$t('common.inventory_management_system')"
                                 />
                                 <span class="ml-3 font-bold text-blueGray-600">{{ truncateString(orderItem.product_json.name, 15) }}</span>
                             </TableData>
                             <TableData>{{ orderItem.product_json.product_number }}</TableData>
                             <TableData>{{ orderItem.product_json.product_code }}</TableData>
                             <TableData>
-                                Buying: <strong>{{ getCurrency() }}{{ orderItem.product_json.buying_price }}</strong>
+                                {{ $t('order.buying') }}: <strong>{{ getCurrency() }}{{ orderItem.product_json.buying_price }}</strong>
                                 <br>
-                                Selling: <strong>{{getCurrency() }}{{ orderItem.product_json.selling_price }}</strong>
+                                {{ $t('order.selling') }}: <strong>{{getCurrency() }}{{ orderItem.product_json.selling_price }}</strong>
                             </TableData>
                             <TableData>
                                 <strong>{{ numberFormat(orderItem.quantity) }}{{ orderItem.product?.unit_type?.symbol }}</strong>
@@ -224,7 +238,7 @@ const closeModal = () => {
 
         <!--Pay due-->
         <Modal
-            title="Pay Due"
+            :title="$t('order.pay_due')"
             :show="showPaymentModal"
             :formProcessing="form.processing"
             @close="closeModal"
@@ -248,7 +262,7 @@ const closeModal = () => {
                     </select>
                     <input
                         id="paid"
-                        placeholder="Enter paid amount"
+                        :placeholder="$t('order.enter_paid_amount')"
                         v-model="form.amount"
                         @keyup.enter="payOrderDue"
                         type="text"
@@ -261,18 +275,18 @@ const closeModal = () => {
 
         <!--Settle Order-->
         <Modal
-            title="Due Settlement"
+            :title="$t('order.due_settlement')"
             :show="showSettleModal"
             :formProcessing="form.processing"
             @close="closeModal"
             @submitAction="settleDuePayment"
             maxWidth="md"
-            submitButtonText="Yes, settle it!"
+            :submitButtonText="$t('order.yes_settle_it')"
         >
-            Are you sure you want to settle this due payment?
+            {{ $t('order.confirm_settle_due') }}
             <br>
             <br>
-            <strong>Note: </strong>The due amount will be applied as discount.
+            <strong>{{ $t('common.note') }}: </strong>{{ $t('order.due_discount_note') }}
         </Modal>
     </AuthenticatedLayout>
 </template>

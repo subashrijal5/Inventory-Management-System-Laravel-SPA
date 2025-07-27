@@ -6,6 +6,14 @@ import TableData from "@/Components/TableData.vue";
 import Button from "@/Components/Button.vue";
 import InputError from "@/Components/InputError.vue";
 import Modal from "@/Components/Modal.vue";
+import {useForm} from '@inertiajs/vue3';
+import {nextTick, ref} from 'vue';
+import DashboardInputGroup from "@/Components/DashboardInputGroup.vue";
+import AsyncVueSelect from "@/Components/AsyncVueSelect.vue";
+import {showToast} from "@/Utils/Helper.js";
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 defineProps({
     filters: {
@@ -16,18 +24,12 @@ defineProps({
     },
 });
 
-import {useForm} from '@inertiajs/vue3';
-import {nextTick, ref} from 'vue';
-import DashboardInputGroup from "@/Components/DashboardInputGroup.vue";
-import AsyncVueSelect from "@/Components/AsyncVueSelect.vue";
-import {showToast} from "@/Utils/Helper.js";
-
 const selectedSalary = ref(null);
 const showCreateModal = ref(false);
 const showEditModal = ref(false);
 const showDeleteModal = ref(false);
 const nameInput = ref(null);
-const tableHeads = ref(['#', "Employee", "Amount", "Salary Date", "Action"]);
+const tableHeads = ref(['#', t('fields.employee'), t('salary.amount'), t('salary.salary_date'), t('fields.action')]);
 
 const form = useForm({
     employee_id: "",
@@ -92,11 +94,11 @@ const closeModal = () => {
 </script>
 
 <template>
-    <Head title="Salary"/>
+    <Head :title="$t('navigation.salary')"/>
 
     <AuthenticatedLayout>
         <template #breadcrumb>
-            Salary
+            {{ $t('navigation.salary') }}
         </template>
 
         <div class="flex flex-wrap">
@@ -109,8 +111,8 @@ const closeModal = () => {
                 >
                     <template #cardHeader>
                         <div class="flex justify-between items-center">
-                            <h4 class="text-2xl">Apply filters({{salaries.total}})</h4>
-                            <Button @click=" showCreateModal = true">Pay Salary</Button>
+                            <h4 class="text-2xl">{{ $t('common.apply_filters') }}({{salaries.total}})</h4>
+                            <Button @click=" showCreateModal = true">{{ $t('salary.pay_salary') }}</Button>
                         </div>
                     </template>
 
@@ -139,7 +141,7 @@ const closeModal = () => {
 
         <!--Create data-->
         <Modal
-            title="Pay Salary"
+            :title="$t('salary.pay_salary')"
             :show="showCreateModal"
             :formProcessing="form.processing"
             @close="closeModal"
@@ -147,21 +149,21 @@ const closeModal = () => {
         >
             <div class="mt-2 grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 min-h-32">
                 <div class="flex flex-col">
-                    <label for="employee" class="text-stone-600 text-sm font-medium">Select Employee</label>
+                    <label for="employee" class="text-stone-600 text-sm font-medium">{{ $t('salary.select_employee') }}</label>
                     <AsyncVueSelect
                         v-model="form.employee_id"
                         resource="employees.index"
-                        placeholder="Select employee"
+                        :placeholder="$t('salary.select_employee')"
                         class="mt-2"
                     />
                     <InputError :message="form.errors.employee_id"/>
                 </div>
                 <div class="flex flex-col overflow-auto">
                     <DashboardInputGroup
-                        label="Salary Date"
+                        :label="$t('salary.salary_date')"
                         name="salary_date"
                         v-model="form.salary_date"
-                        placeholder="Enter salary date"
+                        :placeholder="$t('salary.enter_salary_date')"
                         :errorMessage="form.errors.salary_date"
                         @keyupEnter="createSalary"
                         type="date"
@@ -172,7 +174,7 @@ const closeModal = () => {
 
         <!--Edit data-->
         <Modal
-            title="Edit"
+            :title="$t('actions.edit')"
             :show="showEditModal"
             :formProcessing="form.processing"
             @close="closeModal"
@@ -180,10 +182,10 @@ const closeModal = () => {
         >
             <div>
                 <DashboardInputGroup
-                    label="Employee"
+                    :label="$t('fields.employee')"
                     name="employee_id"
                     v-model="form.employee_id"
-                    placeholder="Select employee"
+                    :placeholder="$t('salary.select_employee')"
                     :errorMessage="form.errors.employee_id"
                     @keyupEnter="createSalary"
                 />
@@ -191,10 +193,10 @@ const closeModal = () => {
             <div class="mt-2 grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                 <div class="flex flex-col overflow-auto">
                     <DashboardInputGroup
-                        label="Amount"
+                        :label="$t('salary.amount')"
                         name="amount"
                         v-model="form.amount"
-                        placeholder="Enter amount"
+                        :placeholder="$t('salary.enter_amount')"
                         :errorMessage="form.errors.amount"
                         @keyupEnter="createSalary"
                         type="number"
@@ -202,10 +204,10 @@ const closeModal = () => {
                 </div>
                 <div class="flex flex-col overflow-auto">
                     <DashboardInputGroup
-                        label="Salary Date"
+                        :label="$t('salary.salary_date')"
                         name="salary_date"
                         v-model="form.salary_date"
-                        placeholder="Enter salary date"
+                        :placeholder="$t('salary.enter_salary_date')"
                         :errorMessage="form.errors.salary_date"
                         @keyupEnter="createSalary"
                         type="date"
@@ -216,15 +218,15 @@ const closeModal = () => {
 
         <!--Delete data-->
         <Modal
-            title="Delete"
+            :title="$t('actions.delete')"
             :show="showDeleteModal"
             :formProcessing="form.processing"
             @close="closeModal"
             @submitAction="deleteSalary"
             maxWidth="sm"
-            submitButtonText="Yes, delete it!"
+            :submitButtonText="$t('salary.confirm_delete_button')"
         >
-            Are you sure you want to delete this salary?
+            {{ $t('salary.confirm_delete_salary') }}
         </Modal>
     </AuthenticatedLayout>
 </template>

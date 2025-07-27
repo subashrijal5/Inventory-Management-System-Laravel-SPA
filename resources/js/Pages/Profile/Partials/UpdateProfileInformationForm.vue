@@ -2,6 +2,9 @@
 import InputError from '@/Components/InputError.vue';
 import {Link, useForm, usePage} from '@inertiajs/vue3';
 import SubmitButton from "@/Components/SubmitButton.vue";
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 defineProps({
     mustVerifyEmail: {
@@ -22,7 +25,7 @@ const form = useForm({
 
 <template>
     <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
-        User Information
+        {{ $t('profile.user_information') }}
     </h6>
     <form @submit.prevent="form.patch(route('profile.update'), {preserveScroll: true})">
         <div class="flex flex-wrap">
@@ -32,7 +35,7 @@ const form = useForm({
                         class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                         for="name"
                     >
-                        Name
+                        {{ $t('fields.name') }}
                     </label>
                     <input
                         id="name"
@@ -52,7 +55,7 @@ const form = useForm({
                         class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                         for="email"
                     >
-                        Email address
+                        {{ $t('fields.email') }}
                     </label>
                     <input
                         id="email"
@@ -68,14 +71,14 @@ const form = useForm({
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
                 <p class="text-sm px-4 text-gray-800">
-                    Your email address is unverified.
+                    {{ $t('profile.email_unverified') }}
                     <Link
                         :href="route('verification.send')"
                         method="post"
                         as="button"
                         class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
-                        Click here to re-send the verification email.
+                        {{ $t('profile.resend_verification') }}
                     </Link>
                 </p>
 
@@ -83,7 +86,7 @@ const form = useForm({
                     v-show="status === 'verification-link-sent'"
                     class="px-4 font-medium text-sm text-emerald-500"
                 >
-                    A new verification link has been sent to your email address.
+                    {{ $t('profile.verification_link_sent') }}
                 </div>
             </div>
 
@@ -92,7 +95,7 @@ const form = useForm({
                     :processing="form.processing"
                     class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                 >
-                    Save
+                    {{ $t('actions.save') }}
                     <Transition
                         enter-active-class="transition ease-in-out"
                         enter-from-class="opacity-0"

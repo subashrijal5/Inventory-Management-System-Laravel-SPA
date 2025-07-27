@@ -29,6 +29,9 @@
             </form>
             <!-- User -->
             <ul class="flex-col md:flex-row list-none items-center hidden md:flex">
+                <li class="mr-4">
+                    <LanguageSwitcher />
+                </li>
                 <UserDropdown/>
             </ul>
         </div>
@@ -38,6 +41,7 @@
 
 <script setup>
 import UserDropdown from "@/Components/Dropdowns/UserDropdown.vue";
+import LanguageSwitcher from "@/Components/LanguageSwitcher.vue";
 import {useForm} from "@inertiajs/vue3";
 import {showToast} from "@/Utils/Helper.js";
 

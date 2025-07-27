@@ -7,6 +7,7 @@ import AsyncVueSelect from "@/Components/AsyncVueSelect.vue";
 import {getCurrency, numberFormat, showToast, truncateString} from "@/Utils/Helper.js";
 import InputError from "@/Components/InputError.vue";
 import SubmitButton from "@/Components/SubmitButton.vue";
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
     products: Object,
@@ -20,6 +21,8 @@ const props = defineProps({
     total: Number,
     orderPaidByTypes: Object,
 });
+
+const { t } = useI18n();
 
 const searchQuery = ref('');
 const searchType = ref('name'); // name, code, category
@@ -150,10 +153,10 @@ const createOrder = () => {
 };
 </script>
 <template>
-    <Head title="Product"/>
+    <Head :title="$t('navigation.products')"/>
     <AuthenticatedLayout>
         <template #breadcrumb>
-            POS
+            {{ $t('navigation.pos') }}
         </template>
         <div class="flex flex-wrap">
             <div class="w-full px-4">
@@ -164,21 +167,21 @@ const createOrder = () => {
                             <!-- header -->
                             <div class="flex flex-row justify-between items-center px-5 mt-5">
                                 <div class="text-gray-800">
-                                    <div class="font-bold text-xl">Products</div>
+                                    <div class="font-bold text-xl">{{ $t('navigation.products') }}</div>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <select
                                         v-model="searchType"
                                         class="px-3 py-1 rounded-md bg-gray-200 border-none text-sm"
                                     >
-                                        <option value="name">Name</option>
-                                        <option value="code">Code</option>
-                                        <option value="category">Category</option>
+                                        <option value="name">{{ $t('fields.name') }}</option>
+                                        <option value="code">{{ $t('fields.code') }}</option>
+                                        <option value="category">{{ $t('fields.category') }}</option>
                                     </select>
                                     <input
                                         v-model="searchQuery"
                                         type="text"
-                                        placeholder="Search products..."
+                                        :placeholder="$t('pos.search_products')"
                                         class="px-3 py-1 rounded-md border border-gray-200 text-sm focus:outline-none focus:border-gray-400"
                                     />
                                 </div>
@@ -219,13 +222,13 @@ const createOrder = () => {
                         <div class="lg:w-2/5">
                             <!-- header -->
                             <div class="flex flex-row items-center justify-between px-5 mt-5">
-                                <div class="font-bold text-xl">Cart</div>
+                                <div class="font-bold text-xl">{{ $t('pos.cart') }}</div>
                                 <div class="font-semibold">
                                     <span
                                         @click="carts.total > 0 ? deleteCartAllItems() : null"
                                         :role="carts.total > 0 ? 'button' : null"
                                         class="px-4 py-2 rounded-md bg-red-100 text-red-500"
-                                    >Clear({{ carts.total }})</span>
+                                    >{{ $t('pos.clear') }}({{ carts.total }})</span>
                                 </div>
                             </div>
                             <!-- end header -->
@@ -281,21 +284,21 @@ const createOrder = () => {
                             <div class="px-5 mt-1">
                                 <div class="pt-2 rounded-md shadow-lg">
                                     <div class=" px-4 flex justify-between ">
-                                        <span class="font-semibold text-sm">Subtotal</span>
+                                        <span class="font-semibold text-sm">{{ $t('pos.subtotal') }}</span>
                                         <span class="font-bold">{{ getCurrency() }}{{ cartSubtotal }}</span>
                                     </div>
                                     <div class=" px-4 flex justify-between ">
-                                        <span class="font-semibold text-sm">Sales Tax({{ tax }}%)</span>
+                                        <span class="font-semibold text-sm">{{ $t('pos.sales_tax') }}({{ tax }}%)</span>
                                         <span class="font-bold">{{ getCurrency() }}{{ totalTax }}</span>
                                     </div>
                                     <div class=" px-4 flex justify-between ">
-                                        <span v-if="discountType === 'fixed'" class="font-semibold text-sm">Discount({{ getCurrency()}}{{ discount }})</span>
-                                        <span v-else class="font-semibold text-sm">Discount({{ discount }}%)</span>
+                                        <span v-if="discountType === 'fixed'" class="font-semibold text-sm">{{ $t('pos.discount') }}({{ getCurrency()}}{{ discount }})</span>
+                                        <span v-else class="font-semibold text-sm">{{ $t('pos.discount') }}({{ discount }}%)</span>
                                         <span class="font-bold">- {{ getCurrency() }}{{ totalDiscount }}</span>
                                     </div>
                                     <div class=" px-4 flex justify-between items-center">
                                         <div class="text-sm flex items-center flex-wrap">
-                                            <span class="font-semibold text-sm mr-1">Custom Discount - </span>
+                                            <span class="font-semibold text-sm mr-1">{{ $t('pos.custom_discount') }} - </span>
                                             <div class="flex">
                                                 <select
                                                     v-model="form.custom_discount.discount_type"
@@ -315,7 +318,7 @@ const createOrder = () => {
                                         <span v-else class="font-bold">- {{ getCurrency() }}{{ numberFormat(cartSubtotal * (form.custom_discount.discount / 100)) }}</span>
                                     </div>
                                     <div class="border-t-2 mt-3 py-2 px-4 flex items-center justify-between">
-                                        <span class="font-semibold text-2xl">Total</span>
+                                        <span class="font-semibold text-2xl">{{ $t('pos.total') }}</span>
                                         <span class="font-bold text-2xl">{{ getCurrency() }}{{ form.total }}</span>
                                     </div>
                                 </div>
@@ -325,18 +328,18 @@ const createOrder = () => {
                             <div class="px-5 mt-1">
                                 <div class="rounded-md shadow-lg px-4 py-4">
                                     <div>
-                                        <label for="customer" class="text-stone-600 text-sm font-medium">Customer</label>
+                                        <label for="customer" class="text-stone-600 text-sm font-medium">{{ $t('fields.customer') }}</label>
                                         <AsyncVueSelect
                                             v-model="form.customer_id"
                                             class="my-1"
                                             resource="customers.index"
-                                            placeholder="Select Customer"
+                                            :placeholder="$t('pos.select_customer')"
                                         />
                                         <InputError :message="form.errors.customer_id"/>
                                     </div>
 
                                     <div>
-                                        <label for="paid" class="text-stone-600 text-sm font-medium">Pay</label>
+                                        <label for="paid" class="text-stone-600 text-sm font-medium">{{ $t('pos.pay') }}</label>
                                         <div class="flex mt-1">
                                             <select
                                                 id="paid_through"
@@ -353,7 +356,7 @@ const createOrder = () => {
                                             </select>
                                             <input
                                                 id="paid"
-                                                placeholder="Enter paid amount"
+                                                :placeholder="$t('pos.enter_paid_amount')"
                                                 v-model="form.paid"
                                                 type="text"
                                                 class="w-full rounded-r-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
@@ -371,7 +374,7 @@ const createOrder = () => {
                                     :processing="form.processing"
                                     class="w-full px-4 py-4 rounded-md shadow-lg text-center bg-emerald-500 text-white font-semibold focus:outline-none"
                                     :class="!carts.total ? 'cursor-not-allowed' : ''"
-                                >Pay & Print</SubmitButton>
+                                >{{ $t('pos.pay_and_print') }}</SubmitButton>
                             </div>
                             <!-- end button pay -->
                         </div>

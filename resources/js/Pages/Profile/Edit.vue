@@ -5,6 +5,9 @@ import CardProfile from "@/Components/Cards/CardProfile.vue";
 import UpdateProfileInformationForm from "@/Pages/Profile/Partials/UpdateProfileInformationForm.vue";
 import UpdatePasswordForm from "@/Pages/Profile/Partials/UpdatePasswordForm.vue";
 import UpdateSettingsForm from "@/Pages/Profile/Partials/UpdateSettingsForm.vue";
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 defineProps({
     mustVerifyEmail: {
@@ -20,11 +23,11 @@ defineProps({
 </script>
 
 <template>
-    <Head title="Profile"/>
+    <Head :title="$t('navigation.profile')"/>
 
     <AuthenticatedLayout>
         <template #breadcrumb>
-            Profile
+            {{ $t('navigation.profile') }}
         </template>
 
         <div class="flex flex-wrap">
@@ -34,7 +37,7 @@ defineProps({
                 >
                     <div class="rounded-t bg-white mb-0 px-6 py-6">
                         <div class="text-center flex justify-between">
-                            <h6 class="text-blueGray-700 text-xl font-bold">My account</h6>
+                            <h6 class="text-blueGray-700 text-xl font-bold">{{ $t('profile.my_account') }}</h6>
                         </div>
                     </div>
                     <div class="flex-auto px-4 lg:px-10 py-10 pt-0">

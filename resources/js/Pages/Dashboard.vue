@@ -30,25 +30,19 @@ watch(() => form.date, async (newDateRange, oldDateRange) => {
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head :title="$t('navigation.dashboard')" />
 
     <AuthenticatedLayout>
         <template #breadcrumb>
-<!--            <Datepicker-->
-<!--                v-model="form.date"-->
-<!--                model-type="yyyy-MM-dd"-->
-<!--                format="yyyy-MM-dd"-->
-<!--                range-->
-<!--                auto-apply-->
-<!--                :enable-time-picker="false"-->
-<!--                placeholder="Select date range"-->
-<!--            />-->
-            <input
-                type="month"
-                placeholder="Select Month"
-                v-model="form.date"
-                class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:ring w-full pl-10"
-            />
+            <div class="flex items-center space-x-4">
+                <span class="text-white text-sm">{{ $t('common.select_month') }}:</span>
+                <input
+                    type="month"
+                    :placeholder="$t('common.select_month')"
+                    v-model="form.date"
+                    class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:ring w-full pl-10"
+                />
+            </div>
         </template>
 
         <template #headerState>
@@ -73,14 +67,6 @@ watch(() => form.date, async (newDateRange, oldDateRange) => {
                     />
                 </div>
             </div>
-<!--            <div class="flex flex-wrap mt-4">-->
-<!--                <div class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">-->
-<!--                    <CardPageVisits/>-->
-<!--                </div>-->
-<!--                <div class="w-full xl:w-4/12 px-4">-->
-<!--                    <CardSocialTraffic/>-->
-<!--                </div>-->
-<!--            </div>-->
         </div>
     </AuthenticatedLayout>
 </template>

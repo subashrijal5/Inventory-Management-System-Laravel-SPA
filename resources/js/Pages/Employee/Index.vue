@@ -10,6 +10,9 @@ import {useForm} from '@inertiajs/vue3';
 import {nextTick, ref} from 'vue';
 import DashboardInputGroup from "@/Components/DashboardInputGroup.vue";
 import {showToast} from "@/Utils/Helper.js";
+import {useI18n} from 'vue-i18n';
+
+const {t} = useI18n();
 
 defineProps({
     filters: {
@@ -25,7 +28,7 @@ const showCreateModal = ref(false);
 const showEditModal = ref(false);
 const showDeleteModal = ref(false);
 const nameInput = ref(null);
-const tableHeads = ref(['#', "Name", "Designation", "Email", "Phone", "Salary", "Joining Date", "Action"]);
+const tableHeads = ref(['#', t('fields.name'), t('employee.designation'), t('fields.email'), t('fields.phone'), t('employee.salary'), t('employee.joining_date'), t('fields.action')]);
 
 const form = useForm({
     name: null,
@@ -113,11 +116,11 @@ const closeModal = () => {
 </script>
 
 <template>
-    <Head title="Employee"/>
+    <Head :title="$t('navigation.employees')"/>
 
     <AuthenticatedLayout>
         <template #breadcrumb>
-            Employees
+            {{ $t('navigation.employees') }}
         </template>
 
         <div class="flex flex-wrap">
@@ -130,8 +133,8 @@ const closeModal = () => {
                 >
                     <template #cardHeader>
                         <div class="flex justify-between items-center">
-                            <h4 class="text-2xl">Apply filters({{employees.total}})</h4>
-                            <Button @click="createEmployeeModal">Create Employee</Button>
+                            <h4 class="text-2xl">{{ $t('common.apply_filters') }}({{employees.total}})</h4>
+                            <Button @click="createEmployeeModal">{{ $t('employee.create_employee') }}</Button>
                         </div>
                     </template>
 
@@ -170,7 +173,7 @@ const closeModal = () => {
 
         <!--Create data-->
         <Modal
-            title="Create"
+            :title="$t('actions.create')"
             :show="showCreateModal"
             :formProcessing="form.processing"
             @close="closeModal"
@@ -179,20 +182,20 @@ const closeModal = () => {
             <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                 <div class="flex flex-col">
                     <DashboardInputGroup
-                        label="Name"
+                        :label="$t('fields.name')"
                         name="name"
                         v-model="form.name"
-                        placeholder="Enter name"
+                        :placeholder="$t('employee.enter_name')"
                         :errorMessage="form.errors.name"
                         @keyupEnter="createEmployee"
                     />
                 </div>
                 <div class="flex flex-col">
                     <DashboardInputGroup
-                        label="Email"
+                        :label="$t('fields.email')"
                         name="email"
                         v-model="form.email"
-                        placeholder="Enter email"
+                        :placeholder="$t('employee.enter_email')"
                         :errorMessage="form.errors.email"
                         @keyupEnter="createEmployee"
                         type="email"
@@ -200,20 +203,20 @@ const closeModal = () => {
                 </div>
                 <div class="flex flex-col">
                     <DashboardInputGroup
-                        label="Phone"
+                        :label="$t('fields.phone')"
                         name="phone"
                         v-model="form.phone"
-                        placeholder="Enter phone"
+                        :placeholder="$t('employee.enter_phone')"
                         :errorMessage="form.errors.phone"
                         @keyupEnter="createEmployee"
                     />
                 </div>
                 <div class="flex flex-col">
                     <DashboardInputGroup
-                        label="NID"
+                        :label="$t('employee.nid')"
                         name="nid"
                         v-model="form.nid"
-                        placeholder="Enter nid"
+                        :placeholder="$t('employee.enter_nid')"
                         :errorMessage="form.errors.nid"
                         @keyupEnter="createEmployee"
                     />
@@ -222,20 +225,20 @@ const closeModal = () => {
             <div class="my-3 grid gap-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3">
                 <div class="flex flex-col">
                     <DashboardInputGroup
-                        label="Designation"
+                        :label="$t('employee.designation')"
                         name="designation"
                         v-model="form.designation"
-                        placeholder="Enter designation"
+                        :placeholder="$t('employee.enter_designation')"
                         :errorMessage="form.errors.designation"
                         @keyupEnter="createEmployee"
                     />
                 </div>
                 <div class="flex flex-col">
                     <DashboardInputGroup
-                        label="Salary"
+                        :label="$t('employee.salary')"
                         name="salary"
                         v-model="form.salary"
-                        placeholder="Enter salary"
+                        :placeholder="$t('employee.enter_salary')"
                         :errorMessage="form.errors.salary"
                         @keyupEnter="createEmployee"
                         type="number"
@@ -243,10 +246,10 @@ const closeModal = () => {
                 </div>
                 <div class="flex flex-col">
                     <DashboardInputGroup
-                        label="Joining Date"
+                        :label="$t('employee.joining_date')"
                         name="joining_date"
                         v-model="form.joining_date"
-                        placeholder="Enter joining_date"
+                        :placeholder="$t('employee.enter_joining_date')"
                         :errorMessage="form.errors.joining_date"
                         @keyupEnter="createEmployee"
                         type="date"
@@ -264,7 +267,7 @@ const closeModal = () => {
                         <span v-if="form.photo" class="mt-2 text-base leading-normal">{{
                                 form.photo.name.replace(/(^.{17}).*(\..+$)/, "$1...$2")
                             }}</span>
-                        <span v-else class="mt-2 text-base leading-normal">Select a photo</span>
+                        <span v-else class="mt-2 text-base leading-normal">{{ $t('employee.select_photo') }}</span>
                         <input
                             @input="form.photo = $event.target.files[0]"
                             type='file'
@@ -275,13 +278,13 @@ const closeModal = () => {
                     <InputError :message="form.errors.photo"/>
                 </div>
                 <div class="flex flex-col">
-                    <label for="address" class="text-stone-600 text-sm font-medium">Address</label>
+                    <label for="address" class="text-stone-600 text-sm font-medium">{{ $t('fields.address') }}</label>
                     <textarea
                         id="address"
                         v-model="form.address"
                         type="text"
                         rows="3"
-                        placeholder="Enter address"
+                        :placeholder="$t('employee.enter_address')"
                         class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                     ></textarea>
                     <InputError :message="form.errors.address"/>
@@ -291,7 +294,7 @@ const closeModal = () => {
 
         <!--Edit data-->
         <Modal
-            title="Edit"
+            :title="$t('actions.edit')"
             :show="showEditModal"
             :formProcessing="form.processing"
             @close="closeModal"
@@ -300,20 +303,20 @@ const closeModal = () => {
             <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                 <div class="flex flex-col">
                     <DashboardInputGroup
-                        label="Name"
+                        :label="$t('fields.name')"
                         name="name"
                         v-model="form.name"
-                        placeholder="Enter name"
+                        :placeholder="$t('employee.enter_name')"
                         :errorMessage="form.errors.name"
                         @keyupEnter="createEmployee"
                     />
                 </div>
                 <div class="flex flex-col">
                     <DashboardInputGroup
-                        label="Email"
+                        :label="$t('fields.email')"
                         name="email"
                         v-model="form.email"
-                        placeholder="Enter email"
+                        :placeholder="$t('employee.enter_email')"
                         :errorMessage="form.errors.email"
                         @keyupEnter="createEmployee"
                         type="email"
@@ -321,20 +324,20 @@ const closeModal = () => {
                 </div>
                 <div class="flex flex-col">
                     <DashboardInputGroup
-                        label="Phone"
+                        :label="$t('fields.phone')"
                         name="phone"
                         v-model="form.phone"
-                        placeholder="Enter phone"
+                        :placeholder="$t('employee.enter_phone')"
                         :errorMessage="form.errors.phone"
                         @keyupEnter="createEmployee"
                     />
                 </div>
                 <div class="flex flex-col">
                     <DashboardInputGroup
-                        label="NID"
+                        :label="$t('employee.nid')"
                         name="nid"
                         v-model="form.nid"
-                        placeholder="Enter nid"
+                        :placeholder="$t('employee.enter_nid')"
                         :errorMessage="form.errors.nid"
                         @keyupEnter="createEmployee"
                     />
@@ -343,20 +346,20 @@ const closeModal = () => {
             <div class="my-3 grid gap-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3">
                 <div class="flex flex-col">
                     <DashboardInputGroup
-                        label="Designation"
+                        :label="$t('employee.designation')"
                         name="designation"
                         v-model="form.designation"
-                        placeholder="Enter designation"
+                        :placeholder="$t('employee.enter_designation')"
                         :errorMessage="form.errors.designation"
                         @keyupEnter="createEmployee"
                     />
                 </div>
                 <div class="flex flex-col">
                     <DashboardInputGroup
-                        label="Salary"
+                        :label="$t('employee.salary')"
                         name="salary"
                         v-model="form.salary"
-                        placeholder="Enter salary"
+                        :placeholder="$t('employee.enter_salary')"
                         :errorMessage="form.errors.salary"
                         @keyupEnter="createEmployee"
                         type="number"
@@ -364,10 +367,10 @@ const closeModal = () => {
                 </div>
                 <div class="flex flex-col">
                     <DashboardInputGroup
-                        label="Joining Date"
+                        :label="$t('employee.joining_date')"
                         name="joining_date"
                         v-model="form.joining_date"
-                        placeholder="Enter joining_date"
+                        :placeholder="$t('employee.enter_joining_date')"
                         :errorMessage="form.errors.joining_date"
                         @keyupEnter="createEmployee"
                         type="date"
@@ -385,7 +388,7 @@ const closeModal = () => {
                         <span v-if="form.photo" class="mt-2 text-base leading-normal">{{
                                 form.photo.name.replace(/(^.{17}).*(\..+$)/, "$1...$2")
                             }}</span>
-                        <span v-else class="mt-2 text-base leading-normal">Select a photo</span>
+                        <span v-else class="mt-2 text-base leading-normal">{{ $t('employee.select_photo') }}</span>
                         <input
                             @input="form.photo = $event.target.files[0]"
                             type='file'
@@ -396,13 +399,13 @@ const closeModal = () => {
                     <InputError :message="form.errors.photo"/>
                 </div>
                 <div class="flex flex-col">
-                    <label for="address" class="text-stone-600 text-sm font-medium">Address</label>
+                    <label for="address" class="text-stone-600 text-sm font-medium">{{ $t('fields.address') }}</label>
                     <textarea
                         id="address"
                         v-model="form.address"
                         type="text"
                         rows="3"
-                        placeholder="Enter address"
+                        :placeholder="$t('employee.enter_address')"
                         class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                     ></textarea>
                     <InputError :message="form.errors.address"/>
@@ -412,15 +415,15 @@ const closeModal = () => {
 
         <!--Delete data-->
         <Modal
-            title="Delete"
+            :title="$t('actions.delete')"
             :show="showDeleteModal"
             :formProcessing="form.processing"
             @close="closeModal"
             @submitAction="deleteEmployee"
             maxWidth="sm"
-            submitButtonText="Yes, delete it!"
+            :submitButtonText="$t('employee.confirm_delete_button')"
         >
-            Are you sure you want to delete this employee?
+            {{ $t('employee.confirm_delete_employee') }}
         </Modal>
     </AuthenticatedLayout>
 </template>

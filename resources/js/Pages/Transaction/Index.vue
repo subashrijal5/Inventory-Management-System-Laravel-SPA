@@ -5,6 +5,9 @@ import CardTable from "@/Components/Cards/CardTable.vue";
 import TableData from "@/Components/TableData.vue";
 import {ref} from 'vue';
 import {formatDatetime, getCurrency} from "@/Utils/Helper.js";
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 defineProps({
     filters: {
@@ -15,15 +18,15 @@ defineProps({
     },
 });
 
-const tableHeads = ref(['#', "Transaction Number", "Order Number", "Amount", "Paid Through", "Created At"]);
+const tableHeads = ref(['#', t('transaction.transaction_number'), t('transaction.order_number'), t('transaction.amount'), t('transaction.paid_through'), t('fields.created_at')]);
 </script>
 
 <template>
-    <Head title="Transaction"/>
+    <Head :title="$t('navigation.transactions')"/>
 
     <AuthenticatedLayout>
         <template #breadcrumb>
-            Transactions
+            {{ $t('navigation.transactions') }}
         </template>
 
         <div class="flex flex-wrap">
@@ -36,7 +39,7 @@ const tableHeads = ref(['#', "Transaction Number", "Order Number", "Amount", "Pa
                 >
                     <template #cardHeader>
                         <div class="flex justify-between items-center">
-                            <h4 class="text-2xl">Apply filters({{transactions.total}})</h4>
+                            <h4 class="text-2xl">{{ $t('common.apply_filters') }}({{transactions.total}})</h4>
                         </div>
                     </template>
 

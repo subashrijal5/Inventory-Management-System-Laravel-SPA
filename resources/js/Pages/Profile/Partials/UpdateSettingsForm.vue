@@ -3,6 +3,9 @@ import InputError from '@/Components/InputError.vue';
 import {useForm} from '@inertiajs/vue3';
 import SubmitButton from "@/Components/SubmitButton.vue";
 import {onMounted, ref} from "vue";
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const props = defineProps({
     settings: {
@@ -23,7 +26,7 @@ onMounted(() => {
 
 <template>
     <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
-        System Settings
+        {{ $t('profile.system_settings') }}
     </h6>
     <form @submit.prevent="$inertia.put(route('settings.update'), form, {preserveScroll: true})">
         <div class="flex flex-wrap">
@@ -55,7 +58,7 @@ onMounted(() => {
                     :processing="form.processing"
                     class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                 >
-                    Save
+                    {{ $t('actions.save') }}
                     <Transition
                         enter-active-class="transition ease-in-out"
                         enter-from-class="opacity-0"

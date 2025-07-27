@@ -9,6 +9,9 @@ import SubmitButton from "@/Components/SubmitButton.vue";
 import AsyncVueSelect from "@/Components/AsyncVueSelect.vue";
 import {showToast} from "@/Utils/Helper.js";
 import default_image from "@/assets/img/default-image.jpg";
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 defineProps({
     filters: {
@@ -57,11 +60,11 @@ const createProduct = () => {
 </script>
 
 <template>
-    <Head title="Product"/>
+    <Head :title="$t('navigation.products')"/>
 
     <AuthenticatedLayout>
         <template #breadcrumb>
-            Products > Create
+            {{ $t('navigation.products') }} > {{ $t('actions.create') }}
         </template>
 
         <div class="flex flex-wrap">
@@ -71,12 +74,12 @@ const createProduct = () => {
                         <div class="flex flex-wrap items-center">
                             <div class="relative w-full px-4 max-w-full flex-grow flex-1">
                                 <div class="flex justify-between items-center">
-                                    <h4 class="text-2xl">Create Product</h4>
+                                    <h4 class="text-2xl">{{ $t('product.create_product') }}</h4>
                                     <Button
                                         :href="route('products.index')"
                                         buttonType="link"
                                     >
-                                        Go Back
+                                        {{ $t('actions.go_back') }}
                                     </Button>
                                 </div>
                             </div>
@@ -85,105 +88,105 @@ const createProduct = () => {
                     <div class="block w-full overflow-x-auto px-8 py-4">
                         <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                             <div class="flex flex-col">
-                                <label for="category" class="text-stone-600 text-sm font-medium">Select Category</label>
+                                <label for="category" class="text-stone-600 text-sm font-medium">{{ $t('product.select_category') }}</label>
                                 <AsyncVueSelect
                                     v-model="form.category_id"
                                     resource="categories.index"
-                                    placeholder="Select category"
+                                    :placeholder="$t('product.select_category')"
                                     class="mt-2"
                                 />
                                 <InputError :message="form.errors.category_id"/>
                             </div>
                             <div class="flex flex-col">
-                                <label for="supplier" class="text-stone-600 text-sm font-medium">Select Supplier</label>
+                                <label for="supplier" class="text-stone-600 text-sm font-medium">{{ $t('product.select_supplier') }}</label>
                                 <AsyncVueSelect
                                     v-model="form.supplier_id"
                                     resource="suppliers.index"
-                                    placeholder="Select supplier"
+                                    :placeholder="$t('product.select_supplier')"
                                     class="mt-2"
                                 />
                                 <InputError :message="form.errors.supplier_id"/>
                             </div>
                             <div class="flex flex-col">
-                                <label for="name" class="text-stone-600 text-sm font-medium">Name</label>
+                                <label for="name" class="text-stone-600 text-sm font-medium">{{ $t('fields.name') }}</label>
                                 <input
                                     id="name"
                                     ref="nameInput"
                                     v-model="form.name"
                                     @keyup.enter="createProduct"
                                     type="text"
-                                    placeholder="Enter name"
+                                    :placeholder="$t('product.enter_name')"
                                     class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                                 />
                                 <InputError :message="form.errors.name"/>
                             </div>
                             <div class="flex flex-col">
-                                <label for="product_code" class="text-stone-600 text-sm font-medium">Product Code</label>
+                                <label for="product_code" class="text-stone-600 text-sm font-medium">{{ $t('product.product_code') }}</label>
                                 <input
                                     id="product_code"
                                     v-model="form.product_code"
                                     @keyup.enter="createProduct"
                                     type="text"
-                                    placeholder="Enter product code"
+                                    :placeholder="$t('product.enter_product_code')"
                                     class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                                 />
                                 <InputError :message="form.errors.product_code"/>
                             </div>
                             <div class="flex flex-col">
-                                <label for="root" class="text-stone-600 text-sm font-medium">Root</label>
+                                <label for="root" class="text-stone-600 text-sm font-medium">{{ $t('product.root') }}</label>
                                 <input
                                     id="root"
                                     v-model="form.root"
                                     @keyup.enter="createProduct"
                                     type="text"
-                                    placeholder="Enter root"
+                                    :placeholder="$t('product.enter_root')"
                                     class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                                 />
                                 <InputError :message="form.errors.root"/>
                             </div>
                             <div class="flex flex-col">
-                                <label for="buying_date" class="text-stone-600 text-sm font-medium">Buying Date</label>
+                                <label for="buying_date" class="text-stone-600 text-sm font-medium">{{ $t('product.buying_date') }}</label>
                                 <input
                                     id="buying_date"
                                     v-model="form.buying_date"
                                     @keyup.enter="createProduct"
                                     type="date"
-                                    placeholder="Enter buying date"
+                                    :placeholder="$t('product.enter_buying_date')"
                                     class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                                 />
                                 <InputError :message="form.errors.buying_date"/>
                             </div>
                             <div class="flex flex-col">
-                                <label for="buying_price" class="text-stone-600 text-sm font-medium">Buying Price</label>
+                                <label for="buying_price" class="text-stone-600 text-sm font-medium">{{ $t('product.buying_price') }}</label>
                                 <input
                                     id="buying_price"
                                     v-model="form.buying_price"
                                     @keyup.enter="createProduct"
                                     type="number"
-                                    placeholder="Enter buying price"
+                                    :placeholder="$t('product.enter_buying_price')"
                                     class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                                 />
                                 <InputError :message="form.errors.buying_price"/>
                             </div>
                             <div class="flex flex-col">
-                                <label for="selling_price" class="text-stone-600 text-sm font-medium">Selling Price</label>
+                                <label for="selling_price" class="text-stone-600 text-sm font-medium">{{ $t('product.selling_price') }}</label>
                                 <input
                                     id="selling_price"
                                     v-model="form.selling_price"
                                     @keyup.enter="createProduct"
                                     type="number"
-                                    placeholder="Enter selling price"
+                                    :placeholder="$t('product.enter_selling_price')"
                                     class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                                 />
                                 <InputError :message="form.errors.selling_price"/>
                             </div>
                             <div class="flex flex-col">
-                                <label for="quantity" class="text-stone-600 text-sm font-medium">Quantity</label>
+                                <label for="quantity" class="text-stone-600 text-sm font-medium">{{ $t('fields.quantity') }}</label>
                                 <div class="flex mt-1">
                                     <AsyncVueSelect
                                         v-model="form.unit_type_id"
                                         resource="unit-types.index"
-                                        placeholder="Select unit type"
+                                        :placeholder="$t('product.select_unit_type')"
                                         class="w-1/2 rounded-l-md bg-gray-300 border-none outline-none focus:outline-none"
                                     />
                                     <input
@@ -191,7 +194,7 @@ const createProduct = () => {
                                         v-model="form.quantity"
                                         @keyup.enter="createProduct"
                                         type="number"
-                                        placeholder="Enter quantity"
+                                        :placeholder="$t('product.enter_quantity')"
                                         class="w-full rounded-r-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                                     />
                                 </div>
@@ -199,14 +202,14 @@ const createProduct = () => {
                                 <InputError :message="form.errors.quantity"/>
                             </div>
                             <div class="flex flex-col">
-                                <label for="status" class="text-stone-600 text-sm font-medium">Status</label>
+                                <label for="status" class="text-stone-600 text-sm font-medium">{{ $t('fields.status') }}</label>
                                 <select
                                     id="status"
                                     v-model="form.status"
                                     class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                                 >
-                                    <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
+                                    <option value="active">{{ $t('status.active') }}</option>
+                                    <option value="inactive">{{ $t('status.inactive') }}</option>
                                 </select>
                                 <InputError :message="form.errors.status"/>
                             </div>
@@ -218,7 +221,7 @@ const createProduct = () => {
                                         :src="previewImage || default_image"
                                         class="shadow-xl h-auto align-middle border-none absolute max-w-150-px"
                                         style="max-width: 400px !important; height: 150px !important;"
-                                        title="Upload Photo"
+                                        :title="$t('product.upload_photo')"
                                     />
                                     <div
                                         v-if="isHovered"
@@ -231,13 +234,13 @@ const createProduct = () => {
                                 <InputError :message="form.errors.photo"/>
                             </div>
                             <div class="flex flex-col">
-                                <label for="description" class="text-stone-600 text-sm font-medium">Description</label>
+                                <label for="description" class="text-stone-600 text-sm font-medium">{{ $t('fields.description') }}</label>
                                 <textarea
                                     id="description"
                                     v-model="form.description"
                                     type="text"
                                     rows="3"
-                                    placeholder="Enter description"
+                                    :placeholder="$t('product.enter_description')"
                                     class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                                 ></textarea>
                                 <InputError :message="form.errors.description"/>
@@ -249,7 +252,7 @@ const createProduct = () => {
                                 @click="createProduct"
                                 class="text-white bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                             >
-                                Submit
+                                {{ $t('actions.submit') }}
                             </SubmitButton>
                         </div>
                     </div>
