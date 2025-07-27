@@ -18,11 +18,11 @@ enum OrderStatusEnum: string implements BaseEnumInterface
     public static function labels(): array
     {
         return [
-            self::PAID->value         => "Paid",
-            self::UNPAID->value       => "Unpaid",
-            self::PARTIAL_PAID->value => "Partial Paid",
-            self::OVER_PAID->value    => "Over Paid",
-            self::SETTLED->value      => "Settled",
+            self::PAID->value         => __('enum_labels.order_status.paid'),
+            self::UNPAID->value       => __('enum_labels.order_status.unpaid'),
+            self::PARTIAL_PAID->value => __('enum_labels.order_status.partial_paid'),
+            self::OVER_PAID->value    => __('enum_labels.order_status.over_paid'),
+            self::SETTLED->value      => __('enum_labels.order_status.settled'),
         ];
     }
 }

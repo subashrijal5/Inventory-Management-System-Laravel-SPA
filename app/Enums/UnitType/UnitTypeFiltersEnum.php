@@ -17,9 +17,10 @@ enum UnitTypeFiltersEnum: string implements BaseEnumInterface
     public static function labels(): array
     {
         return [
-            self::ID->value     => "Id",
-            self::NAME->value   => "Name",
-            self::SYMBOL->value => "Symbol",
+            self::ID->value         => __('enum_labels.unit_type_fields.id'),
+            self::NAME->value       => __('enum_labels.unit_type_fields.name'),
+            self::SYMBOL->value     => __('enum_labels.unit_type_fields.symbol'),
+            self::CREATED_AT->value => __('enum_labels.unit_type_fields.created_at'),
         ];
     }
 }

@@ -87,6 +87,40 @@ export default {
         published: 'Published'
     },
 
+    // Enum Labels
+    enum_labels: {
+        // Order Status
+        order_status: {
+            paid: 'Paid',
+            unpaid: 'Unpaid',
+            partial_paid: 'Partial Paid',
+            over_paid: 'Over Paid',
+            settled: 'Settled'
+        },
+        // Product Status
+        product_status: {
+            active: 'Active',
+            inactive: 'Inactive'
+        },
+        // Sort Order
+        sort_order: {
+            asc: 'ASC',
+            desc: 'DESC'
+        },
+        // Order Fields
+        order_fields: {
+            id: 'ID',
+            customer_id: 'Customer ID',
+            order_number: 'Order Number',
+            sub_total: 'Sub Total',
+            total: 'Total',
+            due: 'Due',
+            profit: 'Profit',
+            loss: 'Loss',
+            status: 'Status'
+        }
+    },
+
     // Common fields
     fields: {
         name: 'Name',
@@ -183,6 +217,9 @@ export default {
         create_order: 'Create Order',
         summary: 'Summary',
         sub_total: 'Sub Total',
+        tax: 'Tax',
+        discount: 'Discount',
+        total: 'Total',
         pay_due: 'Pay Due',
         settle: 'Settle',
         paid: 'Paid',
@@ -197,7 +234,11 @@ export default {
         product_code: 'Product Code',
         buying: 'Buying',
         selling: 'Selling',
+        enter_paid_amount: 'Enter paid amount',
         due_settlement: 'Due Settlement',
+        yes_settle_it: 'Yes, settle it!',
+        confirm_settle_due: 'Are you sure you want to settle the due amount?',
+        due_discount_note: 'The due amount will be applied as discount.',
         settle_confirm: 'Yes, settle it!',
         settle_note: 'Note: The due amount will be applied as discount.'
     },
@@ -387,6 +428,115 @@ export default {
         enter_description: 'Enter description',
         select_option: 'Select option',
         sample_range: 'Sample range: 10-100',
-        search: 'Search...'
+        search: 'Search',
+        enter_email: 'Enter email',
+        enter_order_number: 'Enter order number',
+        select_customer: 'Select customer',
+        enter_sub_total: 'Enter sub total',
+        enter_due: 'Enter due',
+        enter_profit: 'Enter profit',
+        enter_loss: 'Enter loss',
+        select_status: 'Select status',
+        sort_by: 'Sort By',
+        select_sort_field: 'Select a sort field',
+        sort_order: 'Sort order',
+        select_sort_order: 'Select a sort order',
+        enter_created_at: 'Enter created at',
+        enter_keyword: 'Enter keyword',
+        enter_product_number: 'Enter product number',
+        enter_product_code: 'Enter product code',
+        select_category: 'Select category',
+        select_supplier: 'Select supplier',
+        enter_buying_price: 'Enter buying price',
+        enter_selling_price: 'Enter selling price',
+        enter_buying_date: 'Enter buying date',
+        select_unit_type: 'Select unit type',
+        enter_quantity_range: 'Enter range like: 10-100'
+    },
+
+    // Success Messages
+    success_messages: {
+        supplier_created: 'Supplier created successfully',
+        supplier_updated: 'Supplier updated successfully',
+        supplier_deleted: 'Supplier deleted successfully',
+        category_created: 'Category created successfully',
+        category_updated: 'Category updated successfully',
+        category_deleted: 'Category deleted successfully',
+        product_created: 'Product created successfully',
+        product_updated: 'Product updated successfully',
+        product_deleted: 'Product deleted successfully',
+        product_added_to_cart: 'Product added to cart',
+        cart_updated: 'Cart updated successfully',
+        cart_cleared: 'Cart cleared successfully',
+        order_placed: 'Order placed successfully',
+        order_settled: 'Order settled successfully',
+        payment_added: 'Payment added successfully',
+        unit_type_created: 'Unit type created successfully',
+        unit_type_updated: 'Unit type updated successfully',
+        unit_type_deleted: 'Unit type deleted successfully',
+        customer_created: 'Customer created successfully',
+        customer_updated: 'Customer updated successfully',
+        customer_deleted: 'Customer deleted successfully',
+        employee_created: 'Employee created successfully',
+        employee_updated: 'Employee updated successfully',
+        employee_deleted: 'Employee deleted successfully',
+        expense_created: 'Expense created successfully',
+        expense_updated: 'Expense updated successfully',
+        expense_deleted: 'Expense deleted successfully',
+        salary_created: 'Salary created successfully',
+        salary_updated: 'Salary updated successfully',
+        salary_deleted: 'Salary deleted successfully',
+        transaction_created: 'Transaction created successfully',
+        transaction_updated: 'Transaction updated successfully',
+        transaction_deleted: 'Transaction deleted successfully',
+        contact_sent: 'Contact message sent successfully',
+        settings_updated: 'Settings updated successfully',
+        profile_updated: 'Profile updated successfully',
+        profile_image_uploaded: 'Profile image uploaded successfully'
+    },
+
+    // Error Messages
+    error_messages: {
+        category_creation_failed: 'Category creation failed!',
+        category_update_failed: 'Category update failed!',
+        category_deletion_failed: 'Category deletion failed!',
+        settings_update_failed: 'Settings update failed!',
+        product_creation_failed: 'Product creation failed!',
+        product_update_failed: 'Product update failed!',
+        product_deletion_failed: 'Product deletion failed!',
+        unit_type_creation_failed: 'Unit type creation failed!',
+        unit_type_update_failed: 'Unit type update failed!',
+        unit_type_deletion_failed: 'Unit type deletion failed!',
+        order_place_failed: 'Failed to place order!',
+        order_settlement_failed: 'Order settlement failed!',
+        order_payment_failed: 'Order payment failed!',
+        cart_add_product_failed: 'Failed to add product to cart!',
+        cart_update_quantity_failed: 'Failed to update quantity!',
+        cart_increment_quantity_failed: 'Failed to increment quantity!',
+        cart_decrement_quantity_failed: 'Failed to decrement quantity!',
+        cart_delete_item_failed: 'Failed to delete cart item!',
+        cart_delete_all_items_failed: 'Failed to delete cart all items!',
+        employee_creation_failed: 'Employee creation failed!',
+        employee_update_failed: 'Employee update failed!',
+        employee_deletion_failed: 'Employee deletion failed!',
+        expense_creation_failed: 'Expense creation failed!',
+        expense_update_failed: 'Expense update failed!',
+        expense_deletion_failed: 'Expense deletion failed!',
+        supplier_creation_failed: 'Supplier creation failed!',
+        supplier_update_failed: 'Supplier update failed!',
+        supplier_deletion_failed: 'Supplier deletion failed!',
+        profile_image_upload_failed: 'Profile image upload failed!',
+        salary_creation_failed: 'Salary creation failed!',
+        salary_update_failed: 'Salary update failed!',
+        salary_deletion_failed: 'Salary deletion failed!',
+        customer_creation_failed: 'Customer creation failed!',
+        customer_update_failed: 'Customer update failed!',
+        customer_deletion_failed: 'Customer deletion failed!',
+        transaction_creation_failed: 'Transaction creation failed!',
+        transaction_update_failed: 'Transaction update failed!',
+        transaction_deletion_failed: 'Transaction deletion failed!',
+        contact_send_failed: 'Failed to send contact message!',
+        profile_update_failed: 'Profile update failed!',
+        message_send_failed: 'Message sent failed!'
     }
 }

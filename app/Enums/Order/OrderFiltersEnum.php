@@ -23,15 +23,16 @@ enum OrderFiltersEnum: string implements BaseEnumInterface
     public static function labels(): array
     {
         return [
-            self::ID->value           => "Id",
-            self::CUSTOMER_ID->value  => "Customer ID",
-            self::ORDER_NUMBER->value => "Order Number",
-            self::SUB_TOTAL->value    => "Sub Total",
-            self::TOTAL->value        => "Total",
-            self::DUE->value          => "Due",
-            self::PROFIT->value       => "Profit",
-            self::LOSS->value         => "Loss",
-            self::STATUS->value       => "Status",
+            self::ID->value           => __('enum_labels.order_fields.id'),
+            self::CUSTOMER_ID->value  => __('enum_labels.order_fields.customer_id'),
+            self::ORDER_NUMBER->value => __('enum_labels.order_fields.order_number'),
+            self::SUB_TOTAL->value    => __('enum_labels.order_fields.sub_total'),
+            self::TOTAL->value        => __('enum_labels.order_fields.total'),
+            self::DUE->value          => __('enum_labels.order_fields.due'),
+            self::PROFIT->value       => __('enum_labels.order_fields.profit'),
+            self::LOSS->value         => __('enum_labels.order_fields.loss'),
+            self::STATUS->value       => __('enum_labels.order_fields.status'),
+            self::CREATED_AT->value   => __('enum_labels.order_fields.created_at'),
         ];
     }
 }

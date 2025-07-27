@@ -24,16 +24,17 @@ enum OrderSortFieldsEnum: string implements BaseEnumInterface
     public static function labels(): array
     {
         return [
-            self::ID->value             => "Id",
-            self::CUSTOMER_ID->value    => "Customer ID",
-            self::SUB_TOTAL->value      => "Sub Total",
-            self::DISCOUNT_TOTAL->value => "Total Discount",
-            self::TOTAL->value          => "Total",
-            self::PAID->value           => "Paid",
-            self::DUE->value            => "Due",
-            self::PROFIT->value         => "Profit",
-            self::LOSS->value           => "Loss",
-            self::STATUS->value         => "Status",
+            self::ID->value             => __('enum_labels.order_sort_fields.id'),
+            self::CUSTOMER_ID->value    => __('enum_labels.order_sort_fields.customer_id'),
+            self::SUB_TOTAL->value      => __('enum_labels.order_sort_fields.sub_total'),
+            self::DISCOUNT_TOTAL->value => __('enum_labels.order_sort_fields.discount_total'),
+            self::TOTAL->value          => __('enum_labels.order_sort_fields.total'),
+            self::PAID->value           => __('enum_labels.order_sort_fields.paid'),
+            self::DUE->value            => __('enum_labels.order_sort_fields.due'),
+            self::PROFIT->value         => __('enum_labels.order_sort_fields.profit'),
+            self::LOSS->value           => __('enum_labels.order_sort_fields.loss'),
+            self::STATUS->value         => __('enum_labels.order_sort_fields.status'),
+            self::CREATED_AT->value     => __('enum_labels.order_sort_fields.created_at'),
         ];
     }
 }

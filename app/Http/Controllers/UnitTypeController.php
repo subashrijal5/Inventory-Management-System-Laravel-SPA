@@ -39,26 +39,26 @@ class UnitTypeController extends Controller
                 'filters'   => [
                     UnitTypeFiltersEnum::NAME->value   => [
                         'label'       => UnitTypeFiltersEnum::NAME->label(),
-                        'placeholder' => 'Enter name.',
+                        'placeholder' => __('placeholders.enter_name'),
                         'type'        => FilterFieldTypeEnum::STRING->value,
                         'value'       => $request->validated()[UnitTypeFiltersEnum::NAME->value] ?? "",
                     ],
                     UnitTypeFiltersEnum::SYMBOL->value => [
                         'label'       => UnitTypeFiltersEnum::SYMBOL->label(),
-                        'placeholder' => 'Enter symbol.',
+                        'placeholder' => __('placeholders.enter') . ' ' . strtolower(UnitTypeFiltersEnum::SYMBOL->label()),
                         'type'        => FilterFieldTypeEnum::STRING->value,
                         'value'       => $request->validated()[UnitTypeFiltersEnum::SYMBOL->value] ?? "",
                     ],
                     "sort_by"                          => [
-                        'label'       => 'Sort By',
-                        'placeholder' => 'Select a sort field',
+                        'label'       => __('placeholders.sort_by'),
+                        'placeholder' => __('placeholders.select_sort_field'),
                         'type'        => FilterFieldTypeEnum::SELECT_STATIC->value,
                         'value'       => $request->validated()['sort_by'] ?? "",
                         'options'     => BaseHelper::convertKeyValueToLabelValueArray(UnitTypeSortFieldsEnum::choices()),
                     ],
                     "sort_order"                       => [
-                        'label'       => 'Sort order',
-                        'placeholder' => 'Select a sort order',
+                        'label'       => __('placeholders.sort_order'),
+                        'placeholder' => __('placeholders.select_sort_order'),
                         'type'        => FilterFieldTypeEnum::SELECT_STATIC->value,
                         'value'       => $request->validated()['sort_order'] ?? "",
                         'options'     => BaseHelper::convertKeyValueToLabelValueArray(SortOrderEnum::choices()),
@@ -74,12 +74,12 @@ class UnitTypeController extends Controller
                 payload: $request->validated()
             );
             $flash = [
-                "message" => 'Unit type created successfully.'
+                "message" => __('success_messages.unit_type_created')
             ];
         } catch (Exception $e) {
             $flash = [
                 "isSuccess" => false,
-                "message"   => "Unit type creation failed!",
+                "message"   => __('error_messages.unit_type_creation_failed'),
             ];
 
             Log::error("Unit type creation failed!", [
@@ -101,7 +101,7 @@ class UnitTypeController extends Controller
                 payload: $request->validated()
             );
             $flash = [
-                "message" => 'Unit type updated successfully.'
+                "message" => __('success_messages.unit_type_updated')
             ];
         } catch (UnitTypeNotFoundException $e) {
             $flash = [
@@ -111,7 +111,7 @@ class UnitTypeController extends Controller
         } catch (Exception $e) {
             $flash = [
                 "isSuccess" => false,
-                "message"   => "Unit type update failed!",
+                "message"   => __('error_messages.unit_type_update_failed'),
             ];
 
             Log::error("Unit type update failed!", [
@@ -130,7 +130,7 @@ class UnitTypeController extends Controller
         try {
             $this->service->delete(id: $id);
             $flash = [
-                "message" => 'Unit type deleted successfully.'
+                "message" => __('success_messages.unit_type_deleted')
             ];
         } catch (UnitTypeNotFoundException $e) {
             $flash = [
@@ -140,7 +140,7 @@ class UnitTypeController extends Controller
         } catch (Exception $e) {
             $flash = [
                 "isSuccess" => false,
-                "message"   => "Unit type deletion failed!",
+                "message"   => __('error_messages.unit_type_deletion_failed'),
             ];
 
             Log::error("Unit type deletion failed!", [

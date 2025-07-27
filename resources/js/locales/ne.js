@@ -50,6 +50,40 @@ export default {
     draft: 'मस्यौदा',
     published: 'प्रकाशित'
   },
+
+  // Enum Labels
+  enum_labels: {
+    // Order Status
+    order_status: {
+      paid: 'भुक्तानी गरिएको',
+      unpaid: 'भुक्तानी नगरिएको',
+      partial_paid: 'आंशिक भुक्तानी',
+      over_paid: 'बढी भुक्तानी',
+      settled: 'मिलाइएको'
+    },
+    // Product Status
+    product_status: {
+      active: 'सक्रिय',
+      inactive: 'निष्क्रिय'
+    },
+    // Sort Order
+    sort_order: {
+      asc: 'बढ्दो',
+      desc: 'घट्दो'
+    },
+    // Order Fields
+    order_fields: {
+      id: 'आईडी',
+      customer_id: 'ग्राहक आईडी',
+      order_number: 'अर्डर नम्बर',
+      sub_total: 'उप जम्मा',
+      total: 'जम्मा',
+      due: 'बाँकी',
+      profit: 'नाफा',
+      loss: 'नोक्सान',
+      status: 'स्थिति'
+    }
+  },
   fields: {
     name: 'नाम',
     email: 'इमेल',
@@ -139,6 +173,9 @@ export default {
     create_order: 'अर्डर सिर्जना गर्नुहोस्',
     summary: 'सारांश',
     sub_total: 'उप जम्मा',
+    tax: 'कर',
+    discount: 'छुट',
+    total: 'जम्मा',
     pay_due: 'बाँकी भुक्तानी गर्नुहोस्',
     settle: 'मिलाउनुहोस्',
     paid: 'भुक्तानी गरिएको',
@@ -155,7 +192,11 @@ export default {
     selling: 'बिक्री',
     due_settlement: 'बाँकी मिलान',
     settle_confirm: 'हो, मिलाउनुहोस्!',
-    settle_note: 'नोट: बाँकी रकम छुटको रूपमा लागू गरिनेछ।'
+    settle_note: 'नोट: बाँकी रकम छुटको रूपमा लागू गरिनेछ।',
+    enter_paid_amount: 'भुक्तानी रकम प्रविष्ट गर्नुहोस्',
+    yes_settle_it: 'हो, मिलाउनुहोस्!',
+    confirm_settle_due: 'बाँकी मिलान पुष्टि गर्नुहोस्',
+    due_discount_note: 'बाँकी छुट नोट'
   },
   // Customer
   customer: {
@@ -343,6 +384,122 @@ export default {
         enter_description: 'विवरण प्रविष्ट गर्नुहोस्',
         select_option: 'विकल्प चयन गर्नुहोस्',
         sample_range: 'नमूना दायरा: १०-१००',
-        search: 'खोज्नुहोस्...'
+        search: 'खोज्नुहोस्...',
+        enter_email: 'इमेल प्रविष्ट गर्नुहोस्',
+        enter_phone: 'फोन प्रविष्ट गर्नुहोस्',
+        enter_shop_name: 'पसलको नाम प्रविष्ट गर्नुहोस्',
+        enter_symbol: 'प्रतीक प्रविष्ट गर्नुहोस्',
+        enter_amount: 'रकम प्रविष्ट गर्नुहोस्',
+        enter_expense_date: 'खर्च मिति प्रविष्ट गर्नुहोस्',
+        enter_order_number: 'अर्डर नम्बर प्रविष्ट गर्नुहोस्',
+        select_customer: 'ग्राहक चयन गर्नुहोस्',
+        enter_sub_total: 'उप जम्मा प्रविष्ट गर्नुहोस्',
+        enter_due: 'बाँकी प्रविष्ट गर्नुहोस्',
+        enter_profit: 'नाफा प्रविष्ट गर्नुहोस्',
+        enter_loss: 'नोक्सान प्रविष्ट गर्नुहोस्',
+        select_status: 'स्थिति चयन गर्नुहोस्',
+        enter_created_at: 'सिर्जना मिति प्रविष्ट गर्नुहोस्',
+        enter_keyword: 'मुख्य शब्द प्रविष्ट गर्नुहोस्',
+        enter_product_number: 'उत्पादन नम्बर प्रविष्ट गर्नुहोस्',
+        enter_product_code: 'उत्पादन कोड प्रविष्ट गर्नुहोस्',
+        select_category: 'श्रेणी चयन गर्नुहोस्',
+        select_supplier: 'आपूर्तिकर्ता चयन गर्नुहोस्',
+        enter_buying_price: 'खरिद मूल्य प्रविष्ट गर्नुहोस्',
+        enter_selling_price: 'बिक्री मूल्य प्रविष्ट गर्नुहोस्',
+        enter_buying_date: 'खरिद मिति प्रविष्ट गर्नुहोस्',
+        select_unit_type: 'एकाइ प्रकार चयन गर्नुहोस्',
+        enter_range_like: 'दायरा प्रविष्ट गर्नुहोस् जस्तै: १०-१००',
+        enter_transaction_number: 'लेनदेन नम्बर प्रविष्ट गर्नुहोस्',
+        select_order: 'अर्डर चयन गर्नुहोस्',
+        select_paid_through: 'भुक्तानी माध्यम चयन गर्नुहोस्',
+        enter_nid: 'राष्ट्रिय परिचयपत्र प्रविष्ट गर्नुहोस्',
+        enter_salary: 'तलब प्रविष्ट गर्नुहोस्',
+        enter_joining_date: 'सामेल भएको मिति प्रविष्ट गर्नुहोस्',
+        select_employee: 'कर्मचारी चयन गर्नुहोस्',
+        enter_salary_month: 'तलब महिना प्रविष्ट गर्नुहोस्',
+        sort_by: 'क्रमबद्ध गर्नुहोस्',
+        sort_order: 'क्रम व्यवस्था',
+        select_sort_field: 'क्रमबद्ध क्षेत्र चयन गर्नुहोस्',
+        select_sort_order: 'क्रम व्यवस्था चयन गर्नुहोस्'
+    },
+
+    // Success Messages
+    success_messages: {
+        supplier_created: 'आपूर्तिकर्ता सफलतापूर्वक सिर्जना गरियो।',
+        supplier_updated: 'आपूर्तिकर्ता सफलतापूर्वक अपडेट गरियो।',
+        supplier_deleted: 'आपूर्तिकर्ता सफलतापूर्वक मेटाइयो।',
+        category_created: 'श्रेणी सफलतापूर्वक सिर्जना गरियो।',
+        category_updated: 'श्रेणी सफलतापूर्वक अपडेट गरियो।',
+        category_deleted: 'श्रेणी सफलतापूर्वक मेटाइयो।',
+        product_created: 'उत्पादन सफलतापूर्वक सिर्जना गरियो।',
+        product_updated: 'उत्पादन सफलतापूर्वक अपडेट गरियो।',
+        product_deleted: 'उत्पादन सफलतापूर्वक मेटाइयो।',
+        salary_created: 'तलब सफलतापूर्वक सिर्जना गरियो।',
+        salary_updated: 'तलब सफलतापूर्वक अपडेट गरियो।',
+        salary_deleted: 'तलब सफलतापूर्वक मेटाइयो।',
+        customer_created: 'ग्राहक सफलतापूर्वक सिर्जना गरियो।',
+        customer_updated: 'ग्राहक सफलतापूर्वक अपडेट गरियो।',
+        customer_deleted: 'ग्राहक सफलतापूर्वक मेटाइयो।',
+        expense_created: 'खर्च सफलतापूर्वक सिर्जना गरियो।',
+        expense_updated: 'खर्च सफलतापूर्वक अपडेट गरियो।',
+        expense_deleted: 'खर्च सफलतापूर्वक मेटाइयो।',
+        unit_type_created: 'एकाइ प्रकार सफलतापूर्वक सिर्जना गरियो।',
+        unit_type_updated: 'एकाइ प्रकार सफलतापूर्वक अपडेट गरियो।',
+        unit_type_deleted: 'एकाइ प्रकार सफलतापूर्वक मेटाइयो।',
+        cart_product_added: 'उत्पादन कार्टमा थपियो।',
+        cart_quantity_updated: 'उत्पादनको मात्रा अपडेट गरियो।',
+        cart_quantity_incremented: 'उत्पादनको मात्रा बढाइयो।',
+        cart_quantity_decremented: 'उत्पादनको मात्रा घटाइयो।',
+        cart_item_deleted: 'वस्तु कार्टबाट मेटाइयो।',
+        cart_all_items_deleted: 'सबै वस्तुहरू कार्टबाट मेटाइयो।',
+        order_placed: 'अर्डर सफलतापूर्वक राखियो।',
+        order_settled: 'अर्डर सफलतापूर्वक मिलाइयो।',
+        payment_added: 'भुक्तानी सफलतापूर्वक थपियो।',
+        settings_updated: 'सेटिङहरू सफलतापूर्वक अपडेट गरियो।',
+        profile_image_uploaded: 'प्रोफाइल तस्बिर सफलतापूर्वक अपलोड गरियो।',
+        employee_created: 'कर्मचारी सफलतापूर्वक सिर्जना गरियो।',
+        employee_updated: 'कर्मचारी सफलतापूर्वक अपडेट गरियो।',
+        employee_deleted: 'कर्मचारी सफलतापूर्वक मेटाइयो।',
+        message_sent: 'सन्देश सफलतापूर्वक पठाइयो।'
+    },
+
+    // Error Messages
+    error_messages: {
+        category_creation_failed: 'श्रेणी सिर्जना असफल!',
+        category_update_failed: 'श्रेणी अपडेट असफल!',
+        category_deletion_failed: 'श्रेणी मेटाउन असफल!',
+        settings_update_failed: 'सेटिङ अपडेट असफल!',
+        product_creation_failed: 'उत्पादन सिर्जना असफल!',
+        product_update_failed: 'उत्पादन अपडेट असफल!',
+        product_deletion_failed: 'उत्पादन मेटाउन असफल!',
+        unit_type_creation_failed: 'एकाइ प्रकार सिर्जना असफल!',
+        unit_type_update_failed: 'एकाइ प्रकार अपडेट असफल!',
+        unit_type_deletion_failed: 'एकाइ प्रकार मेटाउन असफल!',
+        order_place_failed: 'अर्डर राख्न असफल!',
+        order_settlement_failed: 'अर्डर मिलान असफल!',
+        order_payment_failed: 'अर्डर भुक्तानी असफल!',
+        cart_add_product_failed: 'कार्टमा उत्पादन थप्न असफल!',
+        cart_update_quantity_failed: 'मात्रा अपडेट गर्न असफल!',
+        cart_increment_quantity_failed: 'मात्रा बढाउन असफल!',
+        cart_decrement_quantity_failed: 'मात्रा घटाउन असफल!',
+        cart_delete_item_failed: 'कार्ट वस्तु मेटाउन असफल!',
+        cart_delete_all_items_failed: 'कार्टका सबै वस्तुहरू मेटाउन असफल!',
+        employee_creation_failed: 'कर्मचारी सिर्जना असफल!',
+        employee_update_failed: 'कर्मचारी अपडेट असफल!',
+        employee_deletion_failed: 'कर्मचारी मेटाउन असफल!',
+        expense_creation_failed: 'खर्च सिर्जना असफल!',
+        expense_update_failed: 'खर्च अपडेट असफल!',
+        expense_deletion_failed: 'खर्च मेटाउन असफल!',
+        supplier_creation_failed: 'आपूर्तिकर्ता सिर्जना असफल!',
+        supplier_update_failed: 'आपूर्तिकर्ता अपडेट असफल!',
+        supplier_deletion_failed: 'आपूर्तिकर्ता मेटाउन असफल!',
+        profile_image_upload_failed: 'प्रोफाइल तस्बिर अपलोड असफल!',
+        salary_creation_failed: 'तलब सिर्जना असफल!',
+        salary_update_failed: 'तलब अपडेट असफल!',
+        salary_deletion_failed: 'तलब मेटाउन असफल!',
+        customer_creation_failed: 'ग्राहक सिर्जना असफल!',
+        customer_update_failed: 'ग्राहक अपडेट असफल!',
+        customer_deletion_failed: 'ग्राहक मेटाउन असफल!',
+        message_send_failed: 'सन्देश पठाउन असफल!'
     }
 };

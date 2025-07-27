@@ -19,11 +19,12 @@ enum SupplierFiltersEnum: string implements BaseEnumInterface
     public static function labels(): array
     {
         return [
-            self::ID->value        => "Id",
-            self::NAME->value      => "Name",
-            self::EMAIL->value     => "Email",
-            self::PHONE->value     => "Phone",
-            self::SHOP_NAME->value => "Shop Name",
+            self::ID->value        => __('enum_labels.supplier_fields.id'),
+            self::NAME->value      => __('enum_labels.supplier_fields.name'),
+            self::EMAIL->value     => __('enum_labels.supplier_fields.email'),
+            self::PHONE->value     => __('enum_labels.supplier_fields.phone'),
+            self::SHOP_NAME->value => __('enum_labels.supplier_fields.shop_name'),
+            self::CREATED_AT->value => __('enum_labels.supplier_fields.created_at'),
         ];
     }
 }

@@ -19,11 +19,12 @@ enum TransactionFiltersEnum: string implements BaseEnumInterface
     public static function labels(): array
     {
         return [
-            self::ID->value                 => "Id",
-            self::ORDER_ID->value           => "Order",
-            self::TRANSACTION_NUMBER->value => "Transaction Number",
-            self::AMOUNT->value             => "Amount",
-            self::PAID_THROUGH->value       => "Paid Through",
+            self::ID->value                 => __('enum_labels.transaction_fields.id'),
+            self::ORDER_ID->value           => __('enum_labels.transaction_fields.order_id'),
+            self::TRANSACTION_NUMBER->value => __('enum_labels.transaction_fields.transaction_number'),
+            self::AMOUNT->value             => __('enum_labels.transaction_fields.amount'),
+            self::PAID_THROUGH->value       => __('enum_labels.transaction_fields.paid_through'),
+            self::CREATED_AT->value         => __('enum_labels.transaction_fields.created_at'),
         ];
     }
 }

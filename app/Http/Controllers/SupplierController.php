@@ -38,39 +38,39 @@ class SupplierController extends Controller
                 'suppliers' => $this->service->getAll($request->validated()),
                 'filters'    => [
                     "name"       => [
-                        'label'       => 'Name',
-                        'placeholder' => 'Enter name.',
+                        'label'       => __('enum_labels.supplier.name'),
+                        'placeholder' => __('placeholders.enter_name'),
                         'type'        => FilterFieldTypeEnum::STRING->value,
                         'value'       => $request->validated()['name'] ?? "",
                     ],
                     "email"      => [
-                        'label'       => 'Email',
-                        'placeholder' => 'Enter email.',
+                        'label'       => __('enum_labels.supplier.email'),
+                        'placeholder' => __('placeholders.enter_email'),
                         'type'        => FilterFieldTypeEnum::STRING->value,
                         'value'       => $request->validated()['email'] ?? "",
                     ],
                     "phone"      => [
-                        'label'       => 'Phone',
-                        'placeholder' => 'Enter phone.',
+                        'label'       => __('enum_labels.supplier.phone'),
+                        'placeholder' => __('placeholders.enter_phone'),
                         'type'        => FilterFieldTypeEnum::STRING->value,
                         'value'       => $request->validated()['phone'] ?? "",
                     ],
                     "shop_name"  => [
-                        'label'       => 'Shop Name',
-                        'placeholder' => 'Enter shop name.',
+                        'label'       => __('enum_labels.supplier.shop_name'),
+                        'placeholder' => __('placeholders.enter_name'),
                         'type'        => FilterFieldTypeEnum::STRING->value,
                         'value'       => $request->validated()['shop_name'] ?? "",
                     ],
                     "sort_by"    => [
-                        'label'       => 'Sort By',
-                        'placeholder' => 'Select a sort field',
+                        'label'       => __('placeholders.sort_by'),
+                        'placeholder' => __('placeholders.select_sort_field'),
                         'type'        => FilterFieldTypeEnum::SELECT_STATIC->value,
                         'value'       => $request->validated()['sort_by'] ?? "",
                         'options'     => BaseHelper::convertKeyValueToLabelValueArray(SupplierSortFieldsEnum::choices()),
                     ],
                     "sort_order" => [
-                        'label'       => 'Sort order',
-                        'placeholder' => 'Select a sort order',
+                        'label'       => __('placeholders.sort_order'),
+                        'placeholder' => __('placeholders.select_sort_order'),
                         'type'        => FilterFieldTypeEnum::SELECT_STATIC->value,
                         'value'       => $request->validated()['sort_order'] ?? "",
                         'options'     => BaseHelper::convertKeyValueToLabelValueArray(SortOrderEnum::choices()),
@@ -86,12 +86,12 @@ class SupplierController extends Controller
                 payload: $request->validated()
             );
             $flash = [
-                "message" => 'Supplier created successfully.'
+                "message" => __('success_messages.supplier_created')
             ];
         } catch (Exception $e) {
             $flash = [
                 "isSuccess" => false,
-                "message"   => "Supplier creation failed!",
+                "message"   => __('error_messages.supplier_creation_failed'),
             ];
 
             Log::error("Supplier creation failed!", [
@@ -113,7 +113,7 @@ class SupplierController extends Controller
                 payload: $request->validated()
             );
             $flash = [
-                "message" => 'Supplier updated successfully.'
+                "message" => __('success_messages.supplier_updated')
             ];
         } catch (SupplierNotFoundException $e) {
             $flash = [
@@ -123,7 +123,7 @@ class SupplierController extends Controller
         } catch (Exception $e) {
             $flash = [
                 "isSuccess" => false,
-                "message"   => "Supplier update failed!",
+                "message"   => __('error_messages.supplier_update_failed'),
             ];
 
             Log::error("Supplier update failed!", [
@@ -142,7 +142,7 @@ class SupplierController extends Controller
         try {
             $this->service->delete(id: $id);
             $flash = [
-                "message" => 'Supplier deleted successfully.'
+                "message" => __('success_messages.supplier_deleted')
             ];
         } catch (SupplierNotFoundException $e) {
             $flash = [
@@ -152,7 +152,7 @@ class SupplierController extends Controller
         } catch (Exception $e) {
             $flash = [
                 "isSuccess" => false,
-                "message"   => "Supplier deletion failed!",
+                "message"   => __('error_messages.supplier_deletion_failed'),
             ];
 
             Log::error("Supplier deletion failed!", [

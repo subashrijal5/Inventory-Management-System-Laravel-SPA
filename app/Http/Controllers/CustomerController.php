@@ -40,39 +40,39 @@ class CustomerController extends Controller
                 'filters'   => [
                     CustomerFiltersEnum::NAME->value       => [
                         'label'       => CustomerFiltersEnum::NAME->label(),
-                        'placeholder' => 'Enter name.',
+                        'placeholder' => __('placeholders.enter_name'),
                         'type'        => FilterFieldTypeEnum::STRING->value,
                         'value'       => $request->validated()[CustomerFiltersEnum::NAME->value] ?? "",
                     ],
                     CustomerFiltersEnum::EMAIL->value      => [
                         'label'       => CustomerFiltersEnum::EMAIL->label(),
-                        'placeholder' => 'Enter email.',
+                        'placeholder' => __('placeholders.enter_email'),
                         'type'        => FilterFieldTypeEnum::STRING->value,
                         'value'       => $request->validated()[CustomerFiltersEnum::EMAIL->value] ?? "",
                     ],
                     CustomerFiltersEnum::PHONE->value      => [
                         'label'       => CustomerFiltersEnum::PHONE->label(),
-                        'placeholder' => 'Enter phone.',
+                        'placeholder' => __('placeholders.enter_phone'),
                         'type'        => FilterFieldTypeEnum::STRING->value,
                         'value'       => $request->validated()[CustomerFiltersEnum::PHONE->value] ?? "",
                     ],
                     "sort_by"                              => [
-                        'label'       => 'Sort By',
-                        'placeholder' => 'Select a sort field',
+                        'label'       => __('placeholders.sort_by'),
+                        'placeholder' => __('placeholders.select_sort_field'),
                         'type'        => FilterFieldTypeEnum::SELECT_STATIC->value,
                         'value'       => $request->validated()['sort_by'] ?? "",
                         'options'     => BaseHelper::convertKeyValueToLabelValueArray(CustomerSortFieldsEnum::choices()),
                     ],
                     "sort_order"                           => [
-                        'label'       => 'Sort order',
-                        'placeholder' => 'Select a sort order',
+                        'label'       => __('placeholders.sort_order'),
+                        'placeholder' => __('placeholders.select_sort_order'),
                         'type'        => FilterFieldTypeEnum::SELECT_STATIC->value,
                         'value'       => $request->validated()['sort_order'] ?? "",
                         'options'     => BaseHelper::convertKeyValueToLabelValueArray(SortOrderEnum::choices()),
                     ],
                     CustomerFiltersEnum::CREATED_AT->value => [
                         'label'       => CustomerFiltersEnum::CREATED_AT->label(),
-                        'placeholder' => 'Enter created at.',
+                        'placeholder' => __('placeholders.enter_created_at'),
                         'type'        => FilterFieldTypeEnum::DATETIME_RANGE->value,
                         'value'       => $request->validated()[CustomerFiltersEnum::CREATED_AT->value] ?? "",
                     ],
@@ -87,12 +87,12 @@ class CustomerController extends Controller
                 payload: $request->validated()
             );
             $flash = [
-                "message" => 'Customer created successfully.'
+                "message" => __('success_messages.customer_created')
             ];
         } catch (Exception $e) {
             $flash = [
                 "isSuccess" => false,
-                "message"   => "Customer creation failed!",
+                "message"   => __('error_messages.customer_creation_failed'),
             ];
 
             Log::error("Customer creation failed!", [
@@ -114,7 +114,7 @@ class CustomerController extends Controller
                 payload: $request->validated()
             );
             $flash = [
-                "message" => 'Customer updated successfully.'
+                "message" => __('success_messages.customer_updated')
             ];
         } catch (CustomerNotFoundException $e) {
             $flash = [
@@ -124,7 +124,7 @@ class CustomerController extends Controller
         } catch (Exception $e) {
             $flash = [
                 "isSuccess" => false,
-                "message"   => "Customer update failed!",
+                "message"   => __('error_messages.customer_update_failed'),
             ];
 
             Log::error("Customer update failed!", [
@@ -143,7 +143,7 @@ class CustomerController extends Controller
         try {
             $this->service->delete(id: $id);
             $flash = [
-                "message" => 'Customer deleted successfully.'
+                "message" => __('success_messages.customer_deleted')
             ];
         } catch (CustomerNotFoundException $e) {
             $flash = [
@@ -153,7 +153,7 @@ class CustomerController extends Controller
         } catch (Exception $e) {
             $flash = [
                 "isSuccess" => false,
-                "message"   => "Customer deletion failed!",
+                "message"   => __('error_messages.customer_deletion_failed'),
             ];
 
             Log::error("Customer deletion failed!", [

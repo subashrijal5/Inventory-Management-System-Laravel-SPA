@@ -18,10 +18,11 @@ enum SalaryFiltersEnum: string implements BaseEnumInterface
     public static function labels(): array
     {
         return [
-            self::ID->value          => "Id",
-            self::EMPLOYEE_ID->value => "Employee",
-            self::AMOUNT->value      => "Amount",
-            self::SALARY_DATE->value => "Salary Date",
+            self::ID->value          => __('enum_labels.salary_fields.id'),
+            self::EMPLOYEE_ID->value => __('enum_labels.salary_fields.employee_id'),
+            self::AMOUNT->value      => __('enum_labels.salary_fields.amount'),
+            self::SALARY_DATE->value => __('enum_labels.salary_fields.salary_date'),
+            self::CREATED_AT->value  => __('enum_labels.salary_fields.created_at'),
         ];
     }
 }

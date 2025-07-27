@@ -93,7 +93,7 @@ class SalaryController extends Controller
                 payload: $request->validated()
             );
             $flash = [
-                "message" => 'Salary created successfully.'
+                "message" => __('success_messages.salary_created')
             ];
         } catch (EmployeeNotFoundException|SalaryAlreadyPaidException $e) {
             $flash = [
@@ -103,7 +103,7 @@ class SalaryController extends Controller
         } catch (Exception $e) {
             $flash = [
                 "isSuccess" => false,
-                "message"   => "Salary creation failed!",
+                "message"   => __('error_messages.salary_creation_failed'),
             ];
 
             Log::error("Salary creation failed!", [

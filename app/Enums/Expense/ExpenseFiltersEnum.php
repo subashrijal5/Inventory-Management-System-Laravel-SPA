@@ -18,10 +18,11 @@ enum ExpenseFiltersEnum: string implements BaseEnumInterface
     public static function labels(): array
     {
         return [
-            self::ID->value           => "Id",
-            self::NAME->value         => "Name",
-            self::AMOUNT->value       => "Amount",
-            self::EXPENSE_DATE->value => "Expense Date",
+            self::ID->value           => __('enum_labels.expense_fields.id'),
+            self::NAME->value         => __('enum_labels.expense_fields.name'),
+            self::AMOUNT->value       => __('enum_labels.expense_fields.amount'),
+            self::EXPENSE_DATE->value => __('enum_labels.expense_fields.expense_date'),
+            self::CREATED_AT->value   => __('enum_labels.expense_fields.created_at'),
         ];
     }
 }

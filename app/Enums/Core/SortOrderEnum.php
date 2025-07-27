@@ -15,8 +15,8 @@ enum SortOrderEnum: string implements BaseEnumInterface
     public static function labels(): array
     {
         return [
-            self::ASC->value  => "ASC",
-            self::DESC->value => "DESC",
+            self::ASC->value  => __('enum_labels.sort_order.asc'),
+            self::DESC->value => __('enum_labels.sort_order.desc'),
         ];
     }
 }

@@ -15,8 +15,8 @@ enum ProductStatusEnum: string implements BaseEnumInterface
     public static function labels(): array
     {
         return [
-            self::ACTIVE->value   => "Active",
-            self::INACTIVE->value => "Inactive",
+            self::ACTIVE->value   => __('enum_labels.product_status.active'),
+            self::INACTIVE->value => __('enum_labels.product_status.inactive'),
         ];
     }
 }

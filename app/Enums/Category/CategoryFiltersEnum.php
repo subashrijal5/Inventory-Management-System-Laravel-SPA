@@ -16,8 +16,9 @@ enum CategoryFiltersEnum: string implements BaseEnumInterface
     public static function labels(): array
     {
         return [
-            self::ID->value   => "Id",
-            self::NAME->value => "Name",
+            self::ID->value         => __('enum_labels.category_fields.id'),
+            self::NAME->value       => __('enum_labels.category_fields.name'),
+            self::CREATED_AT->value => __('enum_labels.category_fields.created_at'),
         ];
     }
 }

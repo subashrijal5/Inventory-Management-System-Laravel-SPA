@@ -26,14 +26,12 @@ use Inertia\Inertia;
 
 class OrderController extends Controller
 {
-    public function __construct(private readonly OrderService $service)
-    {
-    }
+    public function __construct(private readonly OrderService $service) {}
 
     public function index(OrderIndexRequest $request)
     {
         $params = $request->validated();
-        if ($request->inertia == "disabled"){
+        if ($request->inertia == "disabled") {
             return $this->service->getAll($params);
         }
 
@@ -50,13 +48,13 @@ class OrderController extends Controller
                 'filters'          => [
                     OrderFiltersEnum::ORDER_NUMBER->value => [
                         'label'       => OrderFiltersEnum::ORDER_NUMBER->label(),
-                        'placeholder' => 'Enter order number.',
+                        'placeholder' => __('placeholders.enter_order_number'),
                         'type'        => FilterFieldTypeEnum::STRING->value,
                         'value'       => $request->validated()[OrderFiltersEnum::ORDER_NUMBER->value] ?? "",
                     ],
                     OrderFiltersEnum::CUSTOMER_ID->value  => [
                         'label'       => OrderFiltersEnum::CUSTOMER_ID->label(),
-                        'placeholder' => 'Select customer.',
+                        'placeholder' => __('placeholders.select_customer'),
                         'type'        => FilterFieldTypeEnum::SELECT->value,
                         'value'       => $request->validated()[OrderFiltersEnum::CUSTOMER_ID->value] ?? "",
                         'resource'    => FilterResourceEnum::CUSTOMERS->value,
@@ -64,63 +62,64 @@ class OrderController extends Controller
                     ],
                     OrderFiltersEnum::SUB_TOTAL->value    => [
                         'label'       => OrderFiltersEnum::SUB_TOTAL->label(),
-                        'placeholder' => 'Enter sub total.',
+                        'placeholder' => __('placeholders.enter_sub_total'),
                         'type'        => FilterFieldTypeEnum::NUMBER_RANGE->value,
                         'value'       => $request->validated()[OrderFiltersEnum::SUB_TOTAL->value] ?? "",
                     ],
                     OrderFiltersEnum::TOTAL->value        => [
                         'label'       => OrderFiltersEnum::TOTAL->label(),
-                        'placeholder' => 'Enter sub total.',
+                        'placeholder' => __('placeholders.enter_sub_total'),
                         'type'        => FilterFieldTypeEnum::NUMBER_RANGE->value,
                         'value'       => $request->validated()[OrderFiltersEnum::TOTAL->value] ?? "",
                     ],
                     OrderFiltersEnum::DUE->value          => [
                         'label'       => OrderFiltersEnum::DUE->label(),
-                        'placeholder' => 'Enter due.',
+                        'placeholder' => __('placeholders.enter_due'),
                         'type'        => FilterFieldTypeEnum::NUMBER_RANGE->value,
                         'value'       => $request->validated()[OrderFiltersEnum::DUE->value] ?? "",
                     ],
                     OrderFiltersEnum::PROFIT->value       => [
                         'label'       => OrderFiltersEnum::PROFIT->label(),
-                        'placeholder' => 'Enter profit.',
+                        'placeholder' => __('placeholders.enter_profit'),
                         'type'        => FilterFieldTypeEnum::NUMBER_RANGE->value,
                         'value'       => $request->validated()[OrderFiltersEnum::PROFIT->value] ?? "",
                     ],
                     OrderFiltersEnum::LOSS->value         => [
                         'label'       => OrderFiltersEnum::LOSS->label(),
-                        'placeholder' => 'Enter loss.',
+                        'placeholder' => __('placeholders.enter_loss'),
                         'type'        => FilterFieldTypeEnum::NUMBER_RANGE->value,
                         'value'       => $request->validated()[OrderFiltersEnum::LOSS->value] ?? "",
                     ],
                     OrderFiltersEnum::STATUS->value       => [
                         'label'       => OrderFiltersEnum::STATUS->label(),
-                        'placeholder' => 'Select status.',
+                        'placeholder' => __('placeholders.select_status'),
                         'type'        => FilterFieldTypeEnum::SELECT_STATIC->value,
                         'value'       => $request->validated()[OrderFiltersEnum::STATUS->value] ?? "",
                         'options'     => BaseHelper::convertKeyValueToLabelValueArray(OrderStatusEnum::choices()),
                     ],
                     "sort_by"                             => [
-                        'label'       => 'Sort By',
-                        'placeholder' => 'Select a sort field',
+                        'label'       => __('placeholders.sort_by'),
+                        'placeholder' => __('placeholders.select_sort_field'),
                         'type'        => FilterFieldTypeEnum::SELECT_STATIC->value,
                         'value'       => $request->validated()['sort_by'] ?? "",
                         'options'     => BaseHelper::convertKeyValueToLabelValueArray(OrderSortFieldsEnum::choices()),
                     ],
                     "sort_order"                          => [
-                        'label'       => 'Sort order',
-                        'placeholder' => 'Select a sort order',
+                        'label'       => __('placeholders.sort_order'),
+                        'placeholder' => __('placeholders.select_sort_order'),
                         'type'        => FilterFieldTypeEnum::SELECT_STATIC->value,
                         'value'       => $request->validated()['sort_order'] ?? "",
                         'options'     => BaseHelper::convertKeyValueToLabelValueArray(SortOrderEnum::choices()),
                     ],
                     OrderFiltersEnum::CREATED_AT->value   => [
                         'label'       => OrderFiltersEnum::CREATED_AT->label(),
-                        'placeholder' => 'Enter created at.',
+                        'placeholder' => __('placeholders.enter_created_at'),
                         'type'        => FilterFieldTypeEnum::DATETIME_RANGE->value,
                         'value'       => $request->validated()[OrderFiltersEnum::CREATED_AT->value] ?? "",
                     ],
                 ],
-            ]);
+            ]
+        );
     }
 
     public function store(OrderCreateRequest $request): RedirectResponse
@@ -131,7 +130,7 @@ class OrderController extends Controller
                 userId: auth()->id()
             );
             $flash = [
-                "message" => 'Order placed successfully.'
+                "message" => __('success_messages.order_placed')
             ];
         } catch (OrderCreateException $e) {
             $flash = [
@@ -141,7 +140,7 @@ class OrderController extends Controller
         } catch (Exception $e) {
             $flash = [
                 "isSuccess" => false,
-                "message"   => "Failed to place order.!",
+                "message"   => __('error_messages.order_place_failed'),
             ];
 
             Log::error("Failed to place order", [
@@ -164,7 +163,7 @@ class OrderController extends Controller
         try {
             $this->service->settle(id: $id);
             $flash = [
-                "message" => 'Order settled successfully.'
+                "message" => __('success_messages.order_settled')
             ];
         } catch (OrderNotFoundException $e) {
             $flash = [
@@ -174,7 +173,7 @@ class OrderController extends Controller
         } catch (Exception $e) {
             $flash = [
                 "isSuccess" => false,
-                "message"   => "Order settlement failed!",
+                "message"   => __('error_messages.order_settlement_failed'),
             ];
 
             Log::error("Order settlement failed", [
@@ -201,7 +200,7 @@ class OrderController extends Controller
                 payload: $request->validated()
             );
             $flash = [
-                "message" => 'Payment added successfully.'
+                "message" => __('success_messages.payment_added')
             ];
         } catch (OrderNotFoundException $e) {
             $flash = [
@@ -211,7 +210,7 @@ class OrderController extends Controller
         } catch (Exception $e) {
             $flash = [
                 "isSuccess" => false,
-                "message"   => "Order payment failed!",
+                "message"   => __('error_messages.order_payment_failed'),
             ];
 
             Log::error("Order payment failed", [

@@ -151,11 +151,11 @@ const closeModal = () => {
                         <TableData :class="order.profit > 0 ? 'text-emerald-500 font-bold' : ''">{{ getCurrency() }}{{ order.profit }}</TableData>
                         <TableData :class="order.loss > 0 ? 'text-red-500 font-bold' : ''">{{ getCurrency() }}{{ order.loss }}</TableData>
                         <TableData>
-                            <span v-if="order.status === 'paid'" class="text-xs font-semibold inline-block py-1 px-2 rounded text-emerald-600 bg-emerald-200">{{ $t('status.paid') }}</span>
-                            <span v-else-if="order.status === 'partial_paid'" class="text-xs font-semibold inline-block py-1 px-2 rounded text-amber-600 bg-amber-200">{{ $t('status.partial_paid') }}</span>
-                            <span v-else-if="order.status === 'over_paid'" class="text-xs font-semibold inline-block py-1 px-2 rounded text-purple-600 bg-purple-200">{{ $t('status.over_paid') }}</span>
-                            <span v-else-if="order.status === 'unpaid'" class="text-xs font-semibold inline-block py-1 px-2 rounded text-red-600 bg-red-200">{{ $t('status.unpaid') }}</span>
-                            <span v-else class="text-xs font-semibold inline-block py-1 px-2 rounded text-blue-600 bg-blue-200">{{ $t('status.settled') }}</span>
+                            <span v-if="order.status === 'paid'" class="text-xs font-semibold inline-block py-1 px-2 rounded text-emerald-600 bg-emerald-200">{{ $t('enum_labels.order_status.paid') }}</span>
+                            <span v-else-if="order.status === 'partial_paid'" class="text-xs font-semibold inline-block py-1 px-2 rounded text-amber-600 bg-amber-200">{{ $t('enum_labels.order_status.partial_paid') }}</span>
+                            <span v-else-if="order.status === 'over_paid'" class="text-xs font-semibold inline-block py-1 px-2 rounded text-purple-600 bg-purple-200">{{ $t('enum_labels.order_status.over_paid') }}</span>
+                            <span v-else-if="order.status === 'unpaid'" class="text-xs font-semibold inline-block py-1 px-2 rounded text-red-600 bg-red-200">{{ $t('enum_labels.order_status.unpaid') }}</span>
+                            <span v-else class="text-xs font-semibold inline-block py-1 px-2 rounded text-blue-600 bg-blue-200">{{ $t('enum_labels.order_status.settled') }}</span>
                         </TableData>
                         <TableData>{{ formatDatetime(order.created_at) }}</TableData>
                         <TableData>

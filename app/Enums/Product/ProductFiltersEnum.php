@@ -28,19 +28,20 @@ enum ProductFiltersEnum: string implements BaseEnumInterface
     public static function labels(): array
     {
         return [
-            self::KEYWORD->value        => "Keyword",
-            self::ID->value             => "Id",
-            self::CATEGORY_ID->value    => "Category",
-            self::SUPPLIER_ID->value    => "Supplier",
-            self::PRODUCT_NUMBER->value => "Product Number",
-            self::NAME->value           => "Name",
-            self::PRODUCT_CODE->value   => "Product Code",
-            self::BUYING_PRICE->value   => "Buying Price",
-            self::SELLING_PRICE->value  => "Selling Price",
-            self::BUYING_DATE->value    => "Buying Date",
-            self::UNIT_TYPE_ID->value   => "Unit Type",
-            self::QUANTITY->value       => "Quantity",
-            self::STATUS->value         => "Status",
+            self::KEYWORD->value        => __('enum_labels.product_fields.keyword'),
+            self::ID->value             => __('enum_labels.product_fields.id'),
+            self::CATEGORY_ID->value    => __('enum_labels.product_fields.category_id'),
+            self::SUPPLIER_ID->value    => __('enum_labels.product_fields.supplier_id'),
+            self::PRODUCT_NUMBER->value => __('enum_labels.product_fields.product_number'),
+            self::NAME->value           => __('enum_labels.product_fields.name'),
+            self::PRODUCT_CODE->value   => __('enum_labels.product_fields.product_code'),
+            self::BUYING_PRICE->value   => __('enum_labels.product_fields.buying_price'),
+            self::SELLING_PRICE->value  => __('enum_labels.product_fields.selling_price'),
+            self::BUYING_DATE->value    => __('enum_labels.product_fields.buying_date'),
+            self::UNIT_TYPE_ID->value   => __('enum_labels.product_fields.unit_type_id'),
+            self::QUANTITIES->value     => __('enum_labels.product_fields.quantities'),
+            self::STATUS->value         => __('enum_labels.product_fields.status'),
+            self::CREATED_AT->value     => __('enum_labels.product_fields.created_at'),
         ];
     }
 }

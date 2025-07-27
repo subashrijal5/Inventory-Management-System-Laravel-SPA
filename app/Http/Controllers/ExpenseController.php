@@ -33,39 +33,39 @@ class ExpenseController extends Controller
                 'filters'  => [
                     ExpenseFiltersEnum::NAME->value         => [
                         'label'       => ExpenseFiltersEnum::NAME->label(),
-                        'placeholder' => 'Enter name.',
+                        'placeholder' => __('placeholders.enter_name'),
                         'type'        => FilterFieldTypeEnum::STRING->value,
                         'value'       => $request->validated()[ExpenseFiltersEnum::NAME->value] ?? "",
                     ],
                     ExpenseFiltersEnum::AMOUNT->value       => [
                         'label'       => ExpenseFiltersEnum::AMOUNT->label(),
-                        'placeholder' => 'Enter amount.',
+                        'placeholder' => __('placeholders.enter_amount'),
                         'type'        => FilterFieldTypeEnum::NUMBER_RANGE->value,
                         'value'       => $request->validated()[ExpenseFiltersEnum::AMOUNT->value] ?? "",
                     ],
                     ExpenseFiltersEnum::EXPENSE_DATE->value => [
                         'label'       => ExpenseFiltersEnum::EXPENSE_DATE->label(),
-                        'placeholder' => 'Enter expense date.',
+                        'placeholder' => __('placeholders.enter') . ' ' . strtolower(ExpenseFiltersEnum::EXPENSE_DATE->label()),
                         'type'        => FilterFieldTypeEnum::DATE_RANGE->value,
                         'value'       => $request->validated()[ExpenseFiltersEnum::EXPENSE_DATE->value] ?? "",
                     ],
                     "sort_by"                               => [
-                        'label'       => 'Sort By',
-                        'placeholder' => 'Select a sort field',
+                        'label'       => __('placeholders.sort_by'),
+                        'placeholder' => __('placeholders.select_sort_field'),
                         'type'        => FilterFieldTypeEnum::SELECT_STATIC->value,
                         'value'       => $request->validated()['sort_by'] ?? "",
                         'options'     => BaseHelper::convertKeyValueToLabelValueArray(ExpenseSortFieldsEnum::choices()),
                     ],
                     "sort_order"                            => [
-                        'label'       => 'Sort order',
-                        'placeholder' => 'Select a sort order',
+                        'label'       => __('placeholders.sort_order'),
+                        'placeholder' => __('placeholders.select_sort_order'),
                         'type'        => FilterFieldTypeEnum::SELECT_STATIC->value,
                         'value'       => $request->validated()['sort_order'] ?? "",
                         'options'     => BaseHelper::convertKeyValueToLabelValueArray(SortOrderEnum::choices()),
                     ],
                     ExpenseFiltersEnum::CREATED_AT->value   => [
                         'label'       => ExpenseFiltersEnum::CREATED_AT->label(),
-                        'placeholder' => 'Enter created at.',
+                        'placeholder' => __('placeholders.enter_created_at'),
                         'type'        => FilterFieldTypeEnum::DATETIME_RANGE->value,
                         'value'       => $request->validated()[ExpenseFiltersEnum::CREATED_AT->value] ?? "",
                     ],
@@ -80,12 +80,12 @@ class ExpenseController extends Controller
                 payload: $request->validated()
             );
             $flash = [
-                "message" => 'Expense created successfully.'
+                "message" => __('success_messages.expense_created')
             ];
         } catch (Exception $e) {
             $flash = [
                 "isSuccess" => false,
-                "message"   => "Expense creation failed!",
+                "message"   => __('error_messages.expense_creation_failed'),
             ];
 
             Log::error("Expense creation failed!", [
@@ -107,7 +107,7 @@ class ExpenseController extends Controller
                 payload: $request->validated()
             );
             $flash = [
-                "message" => 'Expense updated successfully.'
+                "message" => __('success_messages.expense_updated')
             ];
         } catch (ExpenseNotFoundException $e) {
             $flash = [
@@ -117,7 +117,7 @@ class ExpenseController extends Controller
         } catch (Exception $e) {
             $flash = [
                 "isSuccess" => false,
-                "message"   => "Expense update failed!",
+                "message"   => __('error_messages.expense_update_failed'),
             ];
 
             Log::error("Expense update failed!", [
@@ -136,7 +136,7 @@ class ExpenseController extends Controller
         try {
             $this->service->delete(id: $id);
             $flash = [
-                "message" => 'Expense deleted successfully.'
+                "message" => __('success_messages.expense_deleted')
             ];
         } catch (ExpenseNotFoundException $e) {
             $flash = [
@@ -146,7 +146,7 @@ class ExpenseController extends Controller
         } catch (Exception $e) {
             $flash = [
                 "isSuccess" => false,
-                "message"   => "Expense deletion failed!",
+                "message"   => __('error_messages.expense_deletion_failed'),
             ];
 
             Log::error("Expense deletion failed!", [

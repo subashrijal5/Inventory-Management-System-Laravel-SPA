@@ -21,13 +21,13 @@ export function useLocale() {
             locale.value = newLocale
             localStorage.setItem('locale', newLocale)
             
-            // Send request to Laravel backend
+            // Send request to Laravel backend with full page refresh
             await router.post(route('language.change'), {
                 locale: newLocale
             }, {
-                preserveState: true,
-                preserveScroll: true,
-                only: ['locale'] // Only reload locale prop
+                preserveState: false,  // Allow full state refresh
+                preserveScroll: false, // Allow scroll reset
+                // Remove 'only' property to reload entire page
             })
         } catch (error) {
             console.error('Failed to change language:', error)

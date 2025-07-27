@@ -22,14 +22,15 @@ enum EmployeeFiltersEnum: string implements BaseEnumInterface
     public static function labels(): array
     {
         return [
-            self::ID->value           => "Id",
-            self::NAME->value         => "Name",
-            self::EMAIL->value        => "Email",
-            self::PHONE->value        => "Phone",
-            self::DESIGNATION->value  => "Designation",
-            self::SALARY->value       => "Salary",
-            self::NID->value          => "NID",
-            self::JOINING_DATE->value => "Joining Date",
+            self::ID->value           => __('enum_labels.employee_fields.id'),
+            self::NAME->value         => __('enum_labels.employee_fields.name'),
+            self::EMAIL->value        => __('enum_labels.employee_fields.email'),
+            self::PHONE->value        => __('enum_labels.employee_fields.phone'),
+            self::DESIGNATION->value  => __('enum_labels.employee_fields.designation'),
+            self::SALARY->value       => __('enum_labels.employee_fields.salary'),
+            self::NID->value          => __('enum_labels.employee_fields.nid'),
+            self::JOINING_DATE->value => __('enum_labels.employee_fields.joining_date'),
+            self::CREATED_AT->value   => __('enum_labels.employee_fields.created_at'),
         ];
     }
 }

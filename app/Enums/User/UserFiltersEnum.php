@@ -18,10 +18,11 @@ enum UserFiltersEnum: string implements BaseEnumInterface
     public static function labels(): array
     {
         return [
-            self::ID->value                => "Id",
-            self::NAME->value              => "Name",
-            self::EMAIL->value             => "Email",
-            self::EMAIL_VERIFIED_AT->value => "Email verified at",
+            self::ID->value                => __('enum_labels.user_fields.id'),
+            self::NAME->value              => __('enum_labels.user_fields.name'),
+            self::EMAIL->value             => __('enum_labels.user_fields.email'),
+            self::EMAIL_VERIFIED_AT->value => __('enum_labels.user_fields.email_verified_at'),
+            self::CREATED_AT->value        => __('enum_labels.user_fields.created_at'),
         ];
     }
 }

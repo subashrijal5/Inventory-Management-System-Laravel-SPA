@@ -39,20 +39,20 @@ class CategoryController extends Controller
                 'filters'    => [
                     CategoryFiltersEnum::NAME->value => [
                         'label'       => CategoryFiltersEnum::NAME->label(),
-                        'placeholder' => 'Enter name.',
+                        'placeholder' => __('placeholders.enter_name'),
                         'type'        => FilterFieldTypeEnum::STRING->value,
                         'value'       => $request->validated()[CategoryFiltersEnum::NAME->value] ?? "",
                     ],
                     "sort_by"                        => [
-                        'label'       => 'Sort By',
-                        'placeholder' => 'Select a sort field',
+                        'label'       => __('placeholders.sort_by'),
+                        'placeholder' => __('placeholders.select_sort_field'),
                         'type'        => FilterFieldTypeEnum::SELECT_STATIC->value,
                         'value'       => $request->validated()['sort_by'] ?? "",
                         'options'     => BaseHelper::convertKeyValueToLabelValueArray(CategorySortFieldsEnum::choices()),
                     ],
                     "sort_order"                     => [
-                        'label'       => 'Sort order',
-                        'placeholder' => 'Select a sort order',
+                        'label'       => __('placeholders.sort_order'),
+                        'placeholder' => __('placeholders.select_sort_order'),
                         'type'        => FilterFieldTypeEnum::SELECT_STATIC->value,
                         'value'       => $request->validated()['sort_order'] ?? "",
                         'options'     => BaseHelper::convertKeyValueToLabelValueArray(SortOrderEnum::choices()),
@@ -68,12 +68,12 @@ class CategoryController extends Controller
                 payload: $request->validated()
             );
             $flash = [
-                "message" => 'Category created successfully.'
+                "message" => __('success_messages.category_created')
             ];
         } catch (Exception $e) {
             $flash = [
                 "isSuccess" => false,
-                "message"   => "Category creation failed!",
+                "message"   => __('error_messages.category_creation_failed'),
             ];
 
             Log::error("Category creation failed!", [
@@ -95,7 +95,7 @@ class CategoryController extends Controller
                 payload: $request->validated()
             );
             $flash = [
-                "message" => 'Category updated successfully.'
+                "message" => __('success_messages.category_updated')
             ];
         } catch (CategoryNotFoundException $e) {
             $flash = [
@@ -105,7 +105,7 @@ class CategoryController extends Controller
         } catch (Exception $e) {
             $flash = [
                 "isSuccess" => false,
-                "message"   => "Category update failed!",
+                "message"   => __('error_messages.category_update_failed'),
             ];
 
             Log::error("Category update failed!", [
@@ -124,7 +124,7 @@ class CategoryController extends Controller
         try {
             $this->service->delete(id: $id);
             $flash = [
-                "message" => 'Category deleted successfully.'
+                "message" => __('success_messages.category_deleted')
             ];
         } catch (CategoryNotFoundException $e) {
             $flash = [
@@ -134,7 +134,7 @@ class CategoryController extends Controller
         } catch (Exception $e) {
             $flash = [
                 "isSuccess" => false,
-                "message"   => "Category deletion failed!",
+                "message"   => __('error_messages.category_deletion_failed'),
             ];
 
             Log::error("Category deletion failed!", [
