@@ -178,11 +178,20 @@ export default {
     sales_tax: 'बिक्री कर',
     discount: 'छुट',
     custom_discount: 'कस्टम छुट',
+    discount_amount: 'छुट रकम',
     total: 'जम्मा',
     select_customer: 'ग्राहक छान्नुहोस्',
     pay: 'भुक्तानी गर्नुहोस्',
     enter_paid_amount: 'भुक्तानी गरिएको रकम प्रविष्ट गर्नुहोस्',
-    pay_and_print: 'भुक्तानी गर्नुहोस् र प्रिन्ट गर्नुहोस्'
+    pay_and_print: 'भुक्तानी गर्नुहोस् र प्रिन्ट गर्नुहोस्',
+    out_of_stock: 'स्टक सकियो',
+    add_to_cart: 'कार्टमा थप्नुहोस्',
+    empty_cart: 'तपाईंको कार्ट खाली छ',
+    available: 'उपलब्ध',
+    remove_item: 'वस्तु हटाउनुहोस्',
+    quantity: 'मात्रा',
+    insufficient_stock: 'अपर्याप्त स्टक',
+    payment_method_and_amount: 'भुक्तानी विधि र रकम'
   },
   // Order
   order: {

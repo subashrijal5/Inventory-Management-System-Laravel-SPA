@@ -220,11 +220,20 @@ export default {
         sales_tax: 'Sales Tax',
         discount: 'Discount',
         custom_discount: 'Custom Discount',
+        discount_amount: 'Discount Amount',
         total: 'Total',
         select_customer: 'Select Customer',
         pay: 'Pay',
         enter_paid_amount: 'Enter paid amount',
-        pay_and_print: 'Pay & Print'
+        pay_and_print: 'Pay & Print',
+        out_of_stock: 'Out of Stock',
+        add_to_cart: 'Add to Cart',
+        empty_cart: 'Your cart is empty',
+        available: 'Available',
+        remove_item: 'Remove item',
+        quantity: 'Quantity',
+        insufficient_stock: 'Insufficient stock',
+        payment_method_and_amount: 'Payment Method & Amount'
     },
 
     // Order
